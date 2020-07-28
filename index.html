@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang="en">
+    <head>
+        <title>Zodiac 340 Decrypter</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="stylesheet.css" type="text/css" charset="utf-8" />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src='https://unpkg.com/sortablejs@1.4.2'></script>
+    </head>
+    <body>
+        <div id="app">
+            <div class="panel">
+                <div class="panelHeader">key</div>
+                <div>
+                    <letter-keys></letter-keys>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panelHeader">cipher (draggable column headers)</div>
+                <table id="cipherTable" class="cipherTable" @mouseover="cellHoverStart($event)" @mouseleave="cellHoverEnd($event)">
+                    <thead v-draggable="columns">
+                        <template v-for="column in columns">
+                            <th is="table-head" :column="column"></th>
+                        </template>
+                    </thead>
+                    <tbody>
+                        <tr is="cipher-row"
+                            v-for="(x,index) in filteredData"
+                            :key="index"
+                            :cipherrowdata="x"
+                            :columns="columns"
+                            class="cipherText">
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel">
+                <div class="panelHeader">decrypted</div>
+                <table class="cipherTable" id="solutionTable">
+                    <tr v-for="solutionline in solutionlines">
+                        <td v-for="solutioncolumn in solutionline">
+                            <div class="solutionChar">{{ solutioncolumn.englishChar }}</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <script src="main.js"></script>
+    </body>
+</html>
