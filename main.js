@@ -1,3 +1,12 @@
+/**
+ * Let it be known I wrote this script in roughly 5 hours
+ * while I was reading the Vue js tutorials. The quality is
+ * low I really do not know how to wrangle Vue applications yet.
+ *  
+ * Feel free to send me pull requests and I'll merge improvements in
+ * and publish the changes.
+ */
+
 var customColumnOrder = null
 
 Vue.directive("draggable", {
