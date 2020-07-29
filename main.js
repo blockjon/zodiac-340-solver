@@ -1,17 +1,13 @@
-function injectLetterInputBoxesToUi() {
+function initAlphabetManager() {
+  var alphabetManager = new AlphabetManager()
+  var keyWrapper = $('#key-wrapper')
   for (var i = 65; i <= 90; i++) {
-    var letterInputHtml = '' +
-      '<div class="input-group key-letter-wrapper">' +
-      '  <div class="input-group-prepend">' +
-      '    <span class="input-group-text" id="basic-addon1">' + String.fromCharCode(i) + '</span>' +
-      '  </div>' +
-      '  <input type="text" class="form-control" aria-label="Username" aria-describedby="basic-addon1">' +
-      '</div>';
-      $('#key-wrapper').append(letterInputHtml);
+    var letter  = new Letter(String.fromCharCode(i), keyWrapper, alphabetManager)
+    alphabetManager.manageLetter(letter)
   }
+  return alphabetManager
 }
 
 $(function() {
-  console.log($("#key-wrapper"))
-  injectLetterInputBoxesToUi();
+  aManager = initAlphabetManager();
 });

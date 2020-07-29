@@ -1,3 +1,17 @@
+@font-face {
+    font-family: 'untitled2regular';
+    src: url('z340-z408-combined-font-monospaced-webfont.woff2') format('woff2'),
+    url('z340-z408-combined-font-monospaced-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.cipherText {
+    font-family: 'untitled2regular';
+    /* line-height: 0.8em;
+    font-size: 22pt; */
+}
+
 .input-group-text {
     width: 35px;
 }
