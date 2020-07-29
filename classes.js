@@ -18,10 +18,10 @@ class Letter {
       '  <div class="input-group-prepend">' +
       '    <span class="input-group-text">' + this.englishLetter + '</span>' +
       '  </div>' +
-      '  <input type="text" class="form-control zodiac-letter-input">' +
+      '  <input type="text" class="form-control cipherText">' +
       '</div>';
-      appendCtx.append(html)
-      return $("#letter-wrapper-" + this.englishLetter)
+    appendCtx.append(html)
+    return $("#letter-wrapper-" + this.englishLetter)
   }
   registerListeners() {
     var that = this
