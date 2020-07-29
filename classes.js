@@ -77,3 +77,49 @@ class AlphabetManager {
     return false
   }
 }
+
+class CipherManager {
+  constructor(cipherText, el) {
+    this.el = el
+    this.zodiacCipherText = cipherText
+    this.renderCipherTable()
+  }
+  renderCipherTable() {
+    var linesSplit = this.zodiacCipherText.split(/\n/);
+    $("thead tr", this.el).append($('<th scope="row">'));
+    for (var i=0; i<linesSplit[0].length; i++) {
+      $("thead tr", this.el).append($('<th scope="row">').append(i));
+    }
+    for (var i=0; i<linesSplit.length; i++) {
+      var row = $('<tr>');
+      row.append($('<th scope="row">').append(i));
+      for (var j=0; j<linesSplit[i].length; j++) {
+        row.append($('<td>').append(linesSplit[i][j]));
+      }
+      $("tbody", this.el).append(row);
+    }
+  }
+}
+
+class SolutionManager {
+  constructor(cipherText, el) {
+    this.el = el
+    this.cipherText = cipherText
+    this.renderSolutionTable()
+  }
+  renderSolutionTable() {
+    var linesSplit = this.cipherText.split(/\n/);
+    $("thead tr", this.el).append($('<th scope="row">'));
+    for (var i=0; i<linesSplit[0].length; i++) {
+      $("thead tr", this.el).append($('<th scope="row">').append(i));
+    }
+    for (var i=0; i<linesSplit.length; i++) {
+      var row = $('<tr>');
+      row.append($('<th scope="row">').append(i));
+      for (var j=0; j<linesSplit[i].length; j++) {
+        row.append($('<td>'));
+      }
+      $("tbody", this.el).append(row);
+    }
+  }
+}

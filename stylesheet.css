@@ -8,12 +8,25 @@
 
 .cipherText {
     font-family: 'untitled2regular';
-    line-height: 0.8em;
-    font-size: 22pt;
 }
-
+table {
+  line-height: 1;
+}
+th {
+  font-family: Verdana;
+  text-align: center;
+}
+td {
+  font-size: 1.9rem;
+  border: 1px solid grey;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+}
 .form-control {
-  height: calc(1.0em + .75rem + 2px)
+  padding: .175rem .15rem;
+  font-size: 1.8rem;
+  height: calc(0.9em + .75rem + 2px);
 }
 
 .input-group-text {
