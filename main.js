@@ -34,6 +34,11 @@ RcT+L16C<+FlWB|)L
 |FkdW<7tB_YOB*-Cc
 >MDHNpkSzZO8A|K;+`
   aManager = initAlphabetManager();
+
   cipherManager = new CipherManager(cipherText, $("#cipher"))
   solutionManager = new SolutionManager(cipherText, $("#solution"))
+  hoverManager = new HoverManager($("#cipher"), $("#solution"))
+
+  // Activate column dragging
+  $('#cipher').dragtable();
 });

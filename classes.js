@@ -86,13 +86,11 @@ class CipherManager {
   }
   renderCipherTable() {
     var linesSplit = this.zodiacCipherText.split(/\n/);
-    $("thead tr", this.el).append($('<th scope="row">'));
     for (var i=0; i<linesSplit[0].length; i++) {
       $("thead tr", this.el).append($('<th scope="row">').append(i));
     }
     for (var i=0; i<linesSplit.length; i++) {
       var row = $('<tr>');
-      row.append($('<th scope="row">').append(i));
       for (var j=0; j<linesSplit[i].length; j++) {
         row.append($('<td>').append(linesSplit[i][j]));
       }
@@ -109,17 +107,51 @@ class SolutionManager {
   }
   renderSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
-    $("thead tr", this.el).append($('<th scope="row">'));
+    // $("thead tr", this.el).append($('<th scope="row">'));
     for (var i=0; i<linesSplit[0].length; i++) {
       $("thead tr", this.el).append($('<th scope="row">').append(i));
     }
     for (var i=0; i<linesSplit.length; i++) {
       var row = $('<tr>');
-      row.append($('<th scope="row">').append(i));
+      //row.append($('<th scope="row">').append(i));
       for (var j=0; j<linesSplit[i].length; j++) {
         row.append($('<td>'));
       }
       $("tbody", this.el).append(row);
     }
+  }
+}
+
+class HoverManager {
+  constructor(cipherEl, solutionEl) {
+    this.cipherEl = cipherEl
+    this.solutionEl = solutionEl
+    this.watchMouseHoverEvents()
+  }
+  watchMouseHoverEvents() {
+    var that = this
+    var hoveringStarted = (function() {
+      var columnNumber = event.target.closest('td').cellIndex
+      var rowNumber = event.target.closest('tr').rowIndex - 1
+      var row = $("tbody tr", this.cipherEl)[rowNumber]
+      var zodiacCharBelowMouse = $("td", row)[columnNumber].innerText
+      var zodiacCells = $("td:contains('" + zodiacCharBelowMouse + "')", this.cipherEl)
+      $(zodiacCells).addClass('cell-hover')
+      for (var i=0; i<zodiacCells.length; i++) {
+        columnNumber = zodiacCells[i].cellIndex
+        rowNumber = zodiacCells[i].closest('tr').rowIndex
+        row = $("tr", that.solutionEl)[rowNumber]
+
+        console.log(rowNumber + "," +columnNumber)
+        console.log($("td", row)[columnNumber])
+        console.log("Make it hover")
+      }
+    })
+
+    $( "td", this.cipherEl ).hover(hoveringStarted, this.hoveringEnded);
+    $( "td", this.solutionEl ).hover(hoveringStarted, this.hoveringEnded);
+  }
+  hoveringEnded(event) {
+    $(".cell-hover").removeClass('cell-hover')
   }
 }
