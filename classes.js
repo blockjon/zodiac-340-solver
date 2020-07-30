@@ -78,7 +78,6 @@ class AlphabetManager {
         charMap[zLetters[i]] = k
       }
     }
-    console.log(charMap)
     this.zodiacCharToEnglishCharMap = charMap
     if (this.onChangeCallback) {
       this.onChangeCallback()
@@ -126,6 +125,11 @@ class CipherManager {
       $("tbody", this.el).append(row);
     }
   }
+  notifyColumnAdjusted() {
+    if (this.onChangeCallback) {
+      this.onChangeCallback()
+    }
+  }
   onChange(onChangeCallback) {
     this.onChangeCallback = onChangeCallback
   }
@@ -166,6 +170,11 @@ class SolutionManager {
   }
   renderSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
+    for (var i=0; i<linesSplit[0].length; i++) {
+      $("thead th", this.el).eq(i).text(
+        $("thead th", this.cipherManager.el).eq(i).text()
+      )
+    }
     for (var i=0; i<linesSplit.length; i++) {
       for (var j=0; j<linesSplit[i].length; j++) {
         $("tbody tr", this.el).eq(i).find('td').eq(j).text(

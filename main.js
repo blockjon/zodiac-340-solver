@@ -45,6 +45,9 @@ RcT+L16C<+FlWB|)L
   hoverManager = new HoverManager($("#cipher"), $("#solution"))
 
   // Activate column dragging
-  $('#cipher').dragtable();
+  $('#cipher').dragtable({persistState: function(table) {
+      cipherManager.notifyColumnAdjusted()
+    }
+  });
 
 });
