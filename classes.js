@@ -26,7 +26,7 @@ class Letter {
   registerListeners() {
     var that = this
     $( "input", this.el ).on('keyup', function (event) {
-      console.log("input event fired: " + event.type)
+      // console.log("input event fired: " + event.type)
       var zodiacLettersEntered = event.target.value
       that.processZodiacLetterEntered(zodiacLettersEntered)
     });
@@ -79,7 +79,7 @@ class AlphabetManager {
     return this.letters
   }
   uiKeyboardAssignment(zodiacLetter, englishLetter) {
-    console.log("ui keyboard assignment detected")
+    // console.log("ui keyboard assignment detected")
     this.letters[englishLetter].uiKeyboardAssignment(zodiacLetter)
   }
   notifyLetterUpdated(letter) {
@@ -94,8 +94,8 @@ class AlphabetManager {
     if (this.onChangeCallback) {
       this.onChangeCallback()
     }
-    console.log(this.zodiacCharToEnglishCharMap)
-    console.log(this.letters)
+    // console.log(this.zodiacCharToEnglishCharMap)
+    // console.log(this.letters)
   }
   isLetterAlreadyInUse(englishLetter, zodiacLetter) {
     for (const [k, v] of Object.entries(this.letters)) {
@@ -254,13 +254,15 @@ class HoverManager {
       var rowNumber = event.target.closest('tr').rowIndex - 1
       var row = $("tbody tr", this.cipherEl)[rowNumber]
       var zodiacCharBelowMouse = $("td", row)[columnNumber].innerText
-      var zodiacCells = $("td:contains('" + zodiacCharBelowMouse + "')", this.cipherEl)
+      // console.log("char below mouse: " + zodiacCharBelowMouse)
+      var zodiacCells = $("#cipher tbody td:contains('" + zodiacCharBelowMouse + "')")
       $(zodiacCells).addClass('cell-hover')
-      for (var i=0; i<zodiacCells.length; i++) {
-        columnNumber = zodiacCells[i].cellIndex
-        rowNumber = zodiacCells[i].closest('tr').rowIndex
+      $(zodiacCells).each(function() {
+        var columnNumber = this.cellIndex
+        var rowNumber = this.closest('tr').rowIndex
+        // console.log("zodiac char " + zodiacCharBelowMouse + " must be in row " + rowNumber + " in column " + columnNumber)
         $("tbody tr", that.solutionEl).eq(rowNumber-1).find('td').eq(columnNumber).addClass('cell-hover')
-      }
+      });
     })
 
     $( "td", this.cipherEl ).hover(hoveringStarted, this.hoveringEnded);
