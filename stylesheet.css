@@ -6,83 +6,38 @@
     font-style: normal;
 }
 
-#solutionTable {
-    margin-top: 36px;
-}
-
 .cipherText {
     font-family: 'untitled2regular';
-    line-height: 0.8em;
-    font-size: 22pt;
+}
+
+table {
+  line-height: 1;
+}
+
+th {
+  font-family: Verdana;
+  text-align: center;
 }
 
 td {
-    padding: 2px;
-    height: 25px;
+  font-size: 1.9rem;
+  border: 1px solid grey;
+  height: 35px;
+  width: 35px;
+  text-align: center;
+}
+.form-control {
+  padding: .175rem .15rem;
+  font-size: 1.8rem;
+  height: calc(0.9em + .75rem + 2px);
 }
 
-#app {
-    width: 100%;
+.input-group-text {
+    width: 35px;
 }
-
-.panel {
-    width: auto;
-    display: inline-block;
-    padding: 5px;
-    vertical-align: top;
+.key-letter-wrapper {
+  margin-bottom: 2px;
 }
-
-.englishLetter {
-    width: 20px;
-    float: left;
-    text-align: right;
-    padding-top: 5px;
-}
-
-.letterInput {
-    margin: auto;
-    float: left;
-    width: 120px;
-}
-
-.letterRow {
-    clear:both;
-}
-
-.zodiacCharCell {
-    text-align: center;
-}
-
-.cipherTable {
-    border-collapse: collapse;
-}
-
-.cipherTable, td {
-    border: 1px solid grey;
-}
-
-.panelHeader {
-    text-align: center;
-    background-color: #bbb2b2;
-    margin: 5px 0 15px 0;
-}
-
-.draggable {
-    cursor: move;
-}
-
-.solutionChar {
-    min-height: 25px;
-    min-width: 25px;
-    text-align: center;
-    line-height: 26px;
-    font-family: "Lucida Console", Monaco, monospace;
-}
-
-.cipherText td:hover {
-    background-color: #c4c4c4;
-}
-
-.ghostHilight {
-    background-color: #c4c4c4;
+.cell-hover {
+  background-color: grey;
 }
