@@ -26,6 +26,19 @@ td {
   width: 35px;
   text-align: center;
 }
+
+#cipher td {
+  cursor: pointer;
+}
+
+#cipher thead th {
+  cursor: move;
+}
+
+.keyboard-table td {
+  border: 0px;
+}
+
 .form-control {
   padding: .175rem .15rem;
   font-size: 1.8rem;

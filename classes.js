@@ -25,20 +25,28 @@ class Letter {
   }
   registerListeners() {
     var that = this
-    $( "input", this.el ).on('change keyup', function (event) {
+    $( "input", this.el ).on('keyup', function (event) {
+      console.log("input event fired: " + event.type)
       var zodiacLettersEntered = event.target.value
-      zodiacLettersEntered = that.scrub(zodiacLettersEntered)
-      // console.log(zodiacLettersEntered)
-      var validChars = ""
-      for (var i=0; i<zodiacLettersEntered.split('').length; i++) {
-        if (!that.alphabetManager.isLetterAlreadyInUse(that.englishLetter, zodiacLettersEntered[i])) {
-          validChars += zodiacLettersEntered[i]
-        }
-      }
-      that.zodiacLetters = validChars
-      event.target.value = validChars
-      that.alphabetManager.notifyLetterUpdated(that)
+      that.processZodiacLetterEntered(zodiacLettersEntered)
     });
+  }
+  uiKeyboardAssignment(zodiacLetterSelected) {
+    var zodiacLettersEntered = this.zodiacLetters + zodiacLetterSelected
+    this.processZodiacLetterEntered(zodiacLettersEntered)
+  }
+  processZodiacLetterEntered(zodiacLettersEntered) {
+    zodiacLettersEntered = this.scrub(zodiacLettersEntered)
+    $("#letter-wrapper-" + this.englishLetter + " input").val(zodiacLettersEntered)
+    var validChars = ""
+    for (var i=0; i<zodiacLettersEntered.split('').length; i++) {
+      if (!this.alphabetManager.isLetterAlreadyInUse(this.englishLetter, zodiacLettersEntered[i])) {
+        validChars += zodiacLettersEntered[i]
+      }
+    }
+    this.zodiacLetters = validChars
+    $("#letter-wrapper-" + this.englishLetter + " input").val(validChars)
+    this.alphabetManager.notifyLetterUpdated(this)
   }
   toString() {
     return "Manager for English '" + this.getEnglishLetter() + "' UI"
@@ -70,6 +78,10 @@ class AlphabetManager {
   getLetters() {
     return this.letters
   }
+  uiKeyboardAssignment(zodiacLetter, englishLetter) {
+    console.log("ui keyboard assignment detected")
+    this.letters[englishLetter].uiKeyboardAssignment(zodiacLetter)
+  }
   notifyLetterUpdated(letter) {
     var charMap = {}
     for (const [k, v] of Object.entries(this.letters)) {
@@ -82,6 +94,8 @@ class AlphabetManager {
     if (this.onChangeCallback) {
       this.onChangeCallback()
     }
+    console.log(this.zodiacCharToEnglishCharMap)
+    console.log(this.letters)
   }
   isLetterAlreadyInUse(englishLetter, zodiacLetter) {
     for (const [k, v] of Object.entries(this.letters)) {
@@ -106,11 +120,30 @@ class AlphabetManager {
 }
 
 class CipherManager {
-  constructor(cipherText, el) {
+  constructor(cipherText, el, alphabetManager) {
     this.el = el
+    this.alphabetManager = alphabetManager
     this.zodiacCipherText = cipherText
     this.renderCipherTable()
     this.onChangeCallback = null
+    this.registerKeyboardListener()
+  }
+  registerKeyboardListener() {
+    var that = this
+    $(document).on( "click", "#cipher td", function(event) {
+      var zodiacLetterSelected = event.target.innerText
+      $("#dialog span").text(zodiacLetterSelected)
+      var myModal = $( "#dialog" ).dialog({
+        width: "auto",
+        height: "auto",
+        modal: true,
+      });
+      $(document).on( "click", "#dialog button", function(event) {
+        var englishLetter = event.target.innerText
+        that.alphabetManager.uiKeyboardAssignment(zodiacLetterSelected, englishLetter)
+        myModal.dialog( "close" );
+      });
+    });
   }
   renderCipherTable() {
     var linesSplit = this.zodiacCipherText.split(/\n/);
@@ -154,6 +187,27 @@ class SolutionManager {
     this.cipherManager = cipherManager
     this.alphabetManager = alphabetManager
     this.drawSolutionTable()
+    this.registerKeyboardListener()
+  }
+  registerKeyboardListener() {
+    var that = this
+    $(document).on( "click", "#solution td", function(event) {
+      var zodiacLetterSelected = that.cipherManager.resolveZodiacCharacter(
+        event.target.closest('tr').rowIndex - 1,
+        event.target.cellIndex
+      )
+      $("#dialog span").text(zodiacLetterSelected)
+      var myModal = $( "#dialog" ).dialog({
+        width: "auto",
+        height: "auto",
+        modal: true,
+      });
+      $(document).on( "click", "#dialog button", function(event) {
+        var englishLetter = event.target.innerText
+        that.alphabetManager.uiKeyboardAssignment(zodiacLetterSelected, englishLetter)
+        myModal.dialog( "close" );
+      });
+    });
   }
   drawSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
