@@ -140,11 +140,7 @@ class HoverManager {
       for (var i=0; i<zodiacCells.length; i++) {
         columnNumber = zodiacCells[i].cellIndex
         rowNumber = zodiacCells[i].closest('tr').rowIndex
-        row = $("tr", that.solutionEl)[rowNumber]
-
-        console.log(rowNumber + "," +columnNumber)
-        console.log($("td", row)[columnNumber])
-        console.log("Make it hover")
+        $("tbody tr", that.solutionEl).eq(rowNumber-1).find('td').eq(columnNumber).addClass('cell-hover')
       }
     })
 
