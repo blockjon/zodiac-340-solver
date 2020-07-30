@@ -28,7 +28,7 @@ class Letter {
     $( "input", this.el ).on('change keyup', function (event) {
       var zodiacLettersEntered = event.target.value
       zodiacLettersEntered = that.scrub(zodiacLettersEntered)
-      console.log(zodiacLettersEntered)
+      // console.log(zodiacLettersEntered)
       var validChars = ""
       for (var i=0; i<zodiacLettersEntered.split('').length; i++) {
         if (!that.alphabetManager.isLetterAlreadyInUse(that.englishLetter, zodiacLettersEntered[i])) {
@@ -37,6 +37,7 @@ class Letter {
       }
       that.zodiacLetters = validChars
       event.target.value = validChars
+      that.alphabetManager.notifyLetterUpdated(that)
     });
   }
   toString() {
@@ -58,6 +59,10 @@ class Letter {
 class AlphabetManager {
   constructor() {
     this.letters = {}
+    this.zodiacCharToEnglishCharMap = {
+      // 'K': 'x'
+    }
+    this.onChangeCallback = null
   }
   manageLetter(letter) {
     this.letters[letter.getEnglishLetter()] = letter
@@ -65,8 +70,21 @@ class AlphabetManager {
   getLetters() {
     return this.letters
   }
+  notifyLetterUpdated(letter) {
+    var charMap = {}
+    for (const [k, v] of Object.entries(this.letters)) {
+      var zLetters = v.getZodiacLetters()
+      for (var i=0; i<zLetters.length; i++) {
+        charMap[zLetters[i]] = k
+      }
+    }
+    console.log(charMap)
+    this.zodiacCharToEnglishCharMap = charMap
+    if (this.onChangeCallback) {
+      this.onChangeCallback()
+    }
+  }
   isLetterAlreadyInUse(englishLetter, zodiacLetter) {
-    console.log("englishLetter = " + englishLetter)
     for (const [k, v] of Object.entries(this.letters)) {
       if (englishLetter != v.getEnglishLetter()) {
         if (v.getZodiacLetters().indexOf(zodiacLetter) > -1) {
@@ -76,6 +94,16 @@ class AlphabetManager {
     }
     return false
   }
+  onChange(onChangeCallback) {
+    this.onChangeCallback = onChangeCallback
+  }
+  resolveEnglishCharacter(zodiacCharacter) {
+    if (zodiacCharacter in this.zodiacCharToEnglishCharMap) {
+      return this.zodiacCharToEnglishCharMap[zodiacCharacter]
+    } else {
+      return ''
+    }
+  }
 }
 
 class CipherManager {
@@ -83,6 +111,7 @@ class CipherManager {
     this.el = el
     this.zodiacCipherText = cipherText
     this.renderCipherTable()
+    this.onChangeCallback = null
   }
   renderCipherTable() {
     var linesSplit = this.zodiacCipherText.split(/\n/);
@@ -97,27 +126,54 @@ class CipherManager {
       $("tbody", this.el).append(row);
     }
   }
+  onChange(onChangeCallback) {
+    this.onChangeCallback = onChangeCallback
+  }
+  resolveZodiacCharacter(rowIndex, columnIndex) {
+    return $("tbody tr", this.el).eq(rowIndex).find('td').eq(columnIndex).text()
+  }
 }
 
 class SolutionManager {
-  constructor(cipherText, el) {
+  constructor(cipherText, el, cipherManager, alphabetManager) {
     this.el = el
+    var that = this
+    var listener = function () {(
+      function (callback) {
+        callback.call(that)
+      }
+    )(that.renderSolutionTable)}
+    cipherManager.onChange(listener)
+    alphabetManager.onChange(listener)
+
     this.cipherText = cipherText
-    this.renderSolutionTable()
+    this.cipherManager = cipherManager
+    this.alphabetManager = alphabetManager
+    this.drawSolutionTable()
   }
-  renderSolutionTable() {
+  drawSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
-    // $("thead tr", this.el).append($('<th scope="row">'));
     for (var i=0; i<linesSplit[0].length; i++) {
       $("thead tr", this.el).append($('<th scope="row">').append(i));
     }
     for (var i=0; i<linesSplit.length; i++) {
       var row = $('<tr>');
-      //row.append($('<th scope="row">').append(i));
       for (var j=0; j<linesSplit[i].length; j++) {
         row.append($('<td>'));
       }
       $("tbody", this.el).append(row);
+    }
+  }
+  renderSolutionTable() {
+    var linesSplit = this.cipherText.split(/\n/);
+    for (var i=0; i<linesSplit.length; i++) {
+      for (var j=0; j<linesSplit[i].length; j++) {
+        $("tbody tr", this.el).eq(i).find('td').eq(j).text(
+          this.alphabetManager.resolveEnglishCharacter(
+            this.cipherManager.resolveZodiacCharacter(i, j)
+          )
+        )
+      }
     }
   }
 }
