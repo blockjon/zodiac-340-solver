@@ -35,7 +35,7 @@ RcT+L16C<+FlWB|)L
 >MDHNpkSzZO8A|K;+`
 
   alphabetManager = initAlphabetManager();
-  cipherManager = new CipherManager(cipherText, $("#cipher"))
+  cipherManager = new CipherManager(cipherText, $("#cipher"), alphabetManager)
   solutionManager = new SolutionManager(
     cipherText,
     $("#solution"),
