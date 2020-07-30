@@ -187,6 +187,27 @@ class SolutionManager {
     this.cipherManager = cipherManager
     this.alphabetManager = alphabetManager
     this.drawSolutionTable()
+    this.registerKeyboardListener()
+  }
+  registerKeyboardListener() {
+    var that = this
+    $(document).on( "click", "#solution td", function(event) {
+      var zodiacLetterSelected = that.cipherManager.resolveZodiacCharacter(
+        event.target.closest('tr').rowIndex - 1,
+        event.target.cellIndex
+      )
+      $("#dialog span").text(zodiacLetterSelected)
+      var myModal = $( "#dialog" ).dialog({
+        width: "auto",
+        height: "auto",
+        modal: true,
+      });
+      $(document).on( "click", "#dialog button", function(event) {
+        var englishLetter = event.target.innerText
+        that.alphabetManager.uiKeyboardAssignment(zodiacLetterSelected, englishLetter)
+        myModal.dialog( "close" );
+      });
+    });
   }
   drawSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
