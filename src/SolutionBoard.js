@@ -7,4 +7,6 @@ class SolutionBoard {
   }
 }
 
-module.exports = SolutionBoard;
+export {
+  SolutionBoard
+};

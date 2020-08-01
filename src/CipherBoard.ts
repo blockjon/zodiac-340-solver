@@ -7,4 +7,4 @@ class CipherBoard {
   }
 }
 
-module.exports = CipherBoard;
+export { CipherBoard };
