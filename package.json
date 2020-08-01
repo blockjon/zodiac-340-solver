@@ -1,0 +1,24 @@
+{
+  "name": "zodiac-340-solver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jasmine": "^3.6.1"
+  },
+  "scripts": {
+    "test": "jasmine"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockjon/zodiac-340-solver.git"
+  },
+  "keywords": [],
+  "author": "Jonathan Block (www.jonathanblock.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blockjon/zodiac-340-solver/issues"
+  },
+  "homepage": "https://github.com/blockjon/zodiac-340-solver#readme"
+}
