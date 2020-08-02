@@ -22,6 +22,7 @@
   "homepage": "https://github.com/blockjon/zodiac-340-solver#readme",
   "devDependencies": {
     "@types/jasmine": "^3.5.12",
+    "@types/jquery": "^3.5.1",
     "jasmine": "^3.6.1",
     "jasmine-spec-reporter": "^5.0.2",
     "jasmine-ts": "^0.3.0",
@@ -31,5 +32,8 @@
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
     "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "jquery": "^3.5.1"
   }
 }

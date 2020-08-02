@@ -5,6 +5,9 @@ class CipherBoard {
   sayHello() {
     return 'hello'
   }
+  setTableElement(setTableElement: any) {
+    // setTableElement
+  }
 }
 
 export { CipherBoard };
