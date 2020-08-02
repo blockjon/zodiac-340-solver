@@ -23,6 +23,7 @@ class Game {
   }
   setSolutionBoard(solutionBoard: SolutionBoard) {
     this.solutionBoard = solutionBoard
+    console.log(this.solutionBoard)
   }
   getCipherText() {
     return this.cipherText
@@ -30,8 +31,12 @@ class Game {
   sayHello() {
     return 'hello'
   }
-  handleSolutionKeyUpdated(z2eMap: any) {
-    console.log("I am the Game class and I have been notified about a change to the solution key!")
+  handleSolutionKeyUpdated() {
+    this.solutionBoard.rerender.call(
+      this.solutionBoard,
+      this.solutionKey,
+      this.cipherBoard.getData()
+    )
   }
   play() {
     if (this.cipherText.length == 0) {

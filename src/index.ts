@@ -37,8 +37,9 @@ function main() {
   let cipherBoard = new CipherBoard();
   cipherBoard.setRootElement($("#cipher-board"))
 
+
   let game = new Game();
-  solutionKey.addChangeListener(game.handleSolutionKeyUpdated)
+  solutionKey.addChangeListener(() => game.handleSolutionKeyUpdated.call(game))
   game.setCipherText(cipherText);
   game.setCipherBoard(cipherBoard)
   game.setSolutionBoard(solutionBoard)
@@ -47,6 +48,5 @@ function main() {
 }
 
 $(function() {
-  $("#bloop").text("abcdefg");
   main();
 });

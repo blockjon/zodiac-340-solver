@@ -1,6 +1,8 @@
+import $ from "jquery";
+
 class SolutionKey {
-  eToZ: { [key: string]: any } = {};
-  zToE: { [key: string]: any } = {};
+  eToZ: { [key: string]: Array<string> } = {};
+  zToE: { [key: string]: string } = {};
   rootElement: any = null;
   changeListeners: Array<any> = [];
   constructor() {
@@ -31,7 +33,7 @@ class SolutionKey {
     if (zodiacChar in this.zToE) {
       return this.zToE[zodiacChar]
     } else {
-      return null
+      return ''
     }
   }
   sayHello() {
@@ -79,7 +81,7 @@ class SolutionKey {
   notifySolutionKeyUpdated() {
     if (this.changeListeners.length) {
       for (let i = 0; i < this.changeListeners.length; i++) {
-        this.changeListeners[i](this.zToE)
+        this.changeListeners[i]()
       }
     }
   }

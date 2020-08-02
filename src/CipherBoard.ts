@@ -1,3 +1,5 @@
+import $ from "jquery";
+
 class CipherBoard {
   rootElement: any = null;
   originalCipherText: string = '';
@@ -18,6 +20,9 @@ class CipherBoard {
   getWidth() {
     return this.data.length;
   }
+  getData() {
+    return this.data
+  }
   init(cipherText: string) {
     this.originalCipherText = cipherText;
     for (let i = 0; i < this.originalCipherText.split("\n")[0].length; i++) {
@@ -31,7 +36,7 @@ class CipherBoard {
     // Render the headers.
     let tHeadTr = $("thead tr", this.rootElement)
     for (let x = 0; x < this.columnOrder.length; x++) {
-      $("thead tr", this.rootElement).append($('<th scope="row">').append(`${x}`));
+      $("thead tr", this.rootElement).append($('<th class="handle" scope="row">').append(`${x}`));
     }
     let tbody = $("tbody", this.rootElement)
     for (let i = 0; i < this.data.length; i++) {
