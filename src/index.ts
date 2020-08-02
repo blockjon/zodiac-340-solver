@@ -32,9 +32,10 @@ function main() {
   solutionKey.registerUserInterface()
 
   let solutionBoard = new SolutionBoard();
+  solutionBoard.setRootElement($("#solution-board"))
 
   let cipherBoard = new CipherBoard();
-  cipherBoard.setTableElement($("#cipher-board"))
+  cipherBoard.setRootElement($("#cipher-board"))
 
   let game = new Game();
   solutionKey.addChangeListener(game.handleSolutionKeyUpdated)

@@ -31,12 +31,14 @@ class Game {
     return 'hello'
   }
   handleSolutionKeyUpdated(z2eMap: any) {
-    console.log("bam")
+    console.log("I am the Game class and I have been notified about a change to the solution key!")
   }
   play() {
     if (this.cipherText.length == 0) {
       throw new Error("Please provide a cipherText to Game")
     }
+    this.cipherBoard.init(this.cipherText)
+    this.solutionBoard.init(this.cipherBoard.getHeight(), this.cipherBoard.getWidth())
     console.log("Lets play a game")
   }
 }
