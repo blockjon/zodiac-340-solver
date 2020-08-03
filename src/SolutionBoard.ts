@@ -1,15 +1,21 @@
 import $ from "jquery";
+import { SolutionKey } from "./SolutionKey"
 
 class SolutionBoard {
   height: number = 0;
   width: number = 0;
   rootElement: any = null;
-  data: Array<Array<string>> = [];
+  clearTextData: Array<Array<string>> = [];
+  solutionKey: SolutionKey;
   constructor() {
     this.rootElement = null
+    this.solutionKey = new SolutionKey()
   }
   sayHello() {
     return 'hello'
+  }
+  setSolutionKey(solutionKey: SolutionKey) {
+    this.solutionKey = solutionKey
   }
   setRootElement(element: any) {
     this.rootElement = element
@@ -26,33 +32,33 @@ class SolutionBoard {
       for (let j = 0; j < this.width; j++) {
         row.push('')
       }
-      this.data.push(row)
+      this.clearTextData.push(row)
     }
     this.render()
   }
   render() {
     let tbody = $("tbody", this.rootElement)
-    for (let i = 0; i < this.data.length; i++) {
-      let row = tbody.append($('<tr>'));
-      for (let j = 0; j < this.data[i].length; j++) {
-        $(row).append($("<td>").append(''))
+    for (let i = 0; i < this.clearTextData.length; i++) {
+      let row = $('<tr>');
+      // console.log(`adding row ${i}`)
+      for (let j = 0; j < this.clearTextData[i].length; j++) {
+        // console.log(`adding column ${j}`)
+        row.append($("<td>").append(''))
       }
+      tbody.append(row);
     }
   }
   rerender(solutionKey: any, updatedCipherData: any) {
-    console.log(this.height)
-    // let tbody = $("tbody", this.rootElement)
     for (let i = 0; i < this.height; i++) {
       for (let j = 0; j < this.width; j++) {
-        console.log(`updatedCipherData[${i}][${j}] = '${updatedCipherData[i][j]}'`)
-        console.log(`this.data[${i}][${j}] = '${this.data[i][j]}'`)
-        // if (updatedCipherData[i][j] != this.data[i][j]) {
-        //   console.log(`${i}, ${j} should be updated`)
-        // }
-        // $(row).append($("<td>").append(''))
+        let englishChar = solutionKey.resolveZodiacChar(updatedCipherData[i][j])
+        let currentClearTextChar = this.clearTextData[i][j]
+        if (englishChar != currentClearTextChar) {
+          $("#solution-board tbody tr").eq(i).find('td').eq(j).text(englishChar)
+        }
       }
     }
-    // this.data = updatedCipherData
+    this.clearTextData = updatedCipherData
   }
 }
 

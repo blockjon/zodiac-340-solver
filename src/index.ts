@@ -33,10 +33,10 @@ function main() {
 
   let solutionBoard = new SolutionBoard();
   solutionBoard.setRootElement($("#solution-board"))
+  solutionBoard.setSolutionKey(solutionKey)
 
   let cipherBoard = new CipherBoard();
   cipherBoard.setRootElement($("#cipher-board"))
-
 
   let game = new Game();
   solutionKey.addChangeListener(() => game.handleSolutionKeyUpdated.call(game))

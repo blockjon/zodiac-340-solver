@@ -15,10 +15,10 @@ class CipherBoard {
     this.rootElement = element
   }
   getHeight() {
-    return this.data[0].length;
+    return this.data.length;
   }
   getWidth() {
-    return this.data.length;
+    return this.data[0].length;
   }
   getData() {
     return this.data

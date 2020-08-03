@@ -6,9 +6,14 @@ class SolutionKey {
   rootElement: any = null;
   changeListeners: Array<any> = [];
   constructor() {
-    for (var i = 65; i <= 90; i++) {
-      this.eToZ[String.fromCharCode(i).toUpperCase()] = []
+    this.eToZ = this.getDefaultEnglishToZodiacMap()
+  }
+  getDefaultEnglishToZodiacMap() {
+    let result: any = {}
+    for (let i = 65; i <= 90; i++) {
+      result[String.fromCharCode(i).toUpperCase()] = []
     }
+    return result
   }
   addChangeListener(listener: any) {
     this.changeListeners.push(listener)
@@ -70,12 +75,18 @@ class SolutionKey {
     $(this.rootElement).on("keyup", ".zodiacCharactersForLetter", handleInputBoxModified);
   }
   examineInputBoxForChanges(event: any) {
-    let zodiacChars: string = event.target.value
-    let englishLetter: string = event.currentTarget.dataset.englishLetter
-    for (let i = 0; i < zodiacChars.length; i++) {
-      this.zToE[zodiacChars[i]] = englishLetter
-    }
-    this.eToZ[englishLetter] = zodiacChars.split('')
+    let nexteToz = this.getDefaultEnglishToZodiacMap()
+    let nextzToe: { [key: string]: string } = {}
+    $(".zodiacCharactersForLetter").each(function() {
+      let englishLetter = $(this).attr("data-english-letter")
+      let zchars: Array<string> = String($(this).val()).split('')
+      nexteToz[`${englishLetter}`] = zchars
+      for (let i = 0; i < zchars.length; i++) {
+        nextzToe[zchars[i]] = `${englishLetter}`
+      }
+    });
+    this.eToZ = nexteToz
+    this.zToE = nextzToe
     this.notifySolutionKeyUpdated()
   }
   notifySolutionKeyUpdated() {
