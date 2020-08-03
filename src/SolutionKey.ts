@@ -74,7 +74,35 @@ class SolutionKey {
     let handleInputBoxModified = (event: any) => this.examineInputBoxForChanges(event)
     $(this.rootElement).on("keyup", ".zodiacCharactersForLetter", handleInputBoxModified);
   }
+  scrub(input: string) {
+    let re = /[^#%&()*+./123456789:;<>@ABCDEFGHJKLMNOPRSTUVWXYZ^_bcdfjklpqtyz|-]/g;
+    var str = input.replace(re, '');
+    var uniql = "";
+    for (let x = 0; x < str.length; x++) {
+      if (uniql.indexOf(str.charAt(x)) == -1) {
+        uniql += str[x];
+      }
+    }
+    return uniql;
+  }
   examineInputBoxForChanges(event: any) {
+    let zodiacCharsEntered = this.scrub(String($(event.target).val()))
+    if (zodiacCharsEntered != String($(event.target).val())) {
+      $(event.target).val(zodiacCharsEntered)
+      console.log("invalid or duplicate chars detected")
+      return
+    }
+    for (let i = 0; i < zodiacCharsEntered.length; i++) {
+      let zCharToCheck: string = zodiacCharsEntered[i]
+      let englishLetter: string = String($(event.target).attr('data-english-letter'))
+      if (zCharToCheck in this.zToE && this.zToE[zCharToCheck] != englishLetter) {
+        $(event.target).val(this.eToZ[englishLetter].join(''))
+        console.log("char already in use")
+        return
+      }
+    }
+
+
     let nexteToz = this.getDefaultEnglishToZodiacMap()
     let nextzToe: { [key: string]: string } = {}
     $(".zodiacCharactersForLetter").each(function() {
