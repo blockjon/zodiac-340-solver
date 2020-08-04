@@ -25,7 +25,7 @@ class Letter {
   }
   registerListeners() {
     var that = this
-    $( "input", this.el ).on('keyup', function (event) {
+    $("input", this.el).on('keyup', function(event) {
       // console.log("input event fired: " + event.type)
       var zodiacLettersEntered = event.target.value
       that.processZodiacLetterEntered(zodiacLettersEntered)
@@ -39,7 +39,7 @@ class Letter {
     zodiacLettersEntered = this.scrub(zodiacLettersEntered)
     $("#letter-wrapper-" + this.englishLetter + " input").val(zodiacLettersEntered)
     var validChars = ""
-    for (var i=0; i<zodiacLettersEntered.split('').length; i++) {
+    for (var i = 0; i < zodiacLettersEntered.split('').length; i++) {
       if (!this.alphabetManager.isLetterAlreadyInUse(this.englishLetter, zodiacLettersEntered[i])) {
         validChars += zodiacLettersEntered[i]
       }
@@ -55,8 +55,8 @@ class Letter {
     let re = /[^#%&()*+./123456789:;<>@ABCDEFGHJKLMNOPRSTUVWXYZ^_bcdfjklpqtyz|-]/g;
     var str = input.replace(re, '');
     var uniql = "";
-    for (var x=0;x < str.length;x++) {
-      if(uniql.indexOf(str.charAt(x))==-1) {
+    for (var x = 0; x < str.length; x++) {
+      if (uniql.indexOf(str.charAt(x)) == -1) {
         uniql += str[x];
       }
     }
@@ -86,7 +86,7 @@ class AlphabetManager {
     var charMap = {}
     for (const [k, v] of Object.entries(this.letters)) {
       var zLetters = v.getZodiacLetters()
-      for (var i=0; i<zLetters.length; i++) {
+      for (var i = 0; i < zLetters.length; i++) {
         charMap[zLetters[i]] = k
       }
     }
@@ -130,29 +130,29 @@ class CipherManager {
   }
   registerKeyboardListener() {
     var that = this
-    $(document).on( "click", "#cipher td", function(event) {
+    $(document).on("click", "#cipher td", function(event) {
       var zodiacLetterSelected = event.target.innerText
       $("#dialog span").text(zodiacLetterSelected)
-      var myModal = $( "#dialog" ).dialog({
+      var myModal = $("#dialog").dialog({
         width: "auto",
         height: "auto",
         modal: true,
       });
-      $(document).on( "click", "#dialog button", function(event) {
+      $(document).on("click", "#dialog button", function(event) {
         var englishLetter = event.target.innerText
         that.alphabetManager.uiKeyboardAssignment(zodiacLetterSelected, englishLetter)
-        myModal.dialog( "close" );
+        myModal.dialog("close");
       });
     });
   }
   renderCipherTable() {
     var linesSplit = this.zodiacCipherText.split(/\n/);
-    for (var i=0; i<linesSplit[0].length; i++) {
+    for (var i = 0; i < linesSplit[0].length; i++) {
       $("thead tr", this.el).append($('<th scope="row">').append(i));
     }
-    for (var i=0; i<linesSplit.length; i++) {
+    for (var i = 0; i < linesSplit.length; i++) {
       var row = $('<tr>');
-      for (var j=0; j<linesSplit[i].length; j++) {
+      for (var j = 0; j < linesSplit[i].length; j++) {
         row.append($('<td>').append(linesSplit[i][j]));
       }
       $("tbody", this.el).append(row);
@@ -175,11 +175,13 @@ class SolutionManager {
   constructor(cipherText, el, cipherManager, alphabetManager) {
     this.el = el
     var that = this
-    var listener = function () {(
-      function (callback) {
-        callback.call(that)
-      }
-    )(that.renderSolutionTable)}
+    var listener = function() {
+      (
+        function(callback) {
+          callback.call(that)
+        }
+      )(that.renderSolutionTable)
+    }
     cipherManager.onChange(listener)
     alphabetManager.onChange(listener)
 
@@ -191,32 +193,32 @@ class SolutionManager {
   }
   registerKeyboardListener() {
     var that = this
-    $(document).on( "click", "#solution td", function(event) {
+    $(document).on("click", "#solution td", function(event) {
       var zodiacLetterSelected = that.cipherManager.resolveZodiacCharacter(
         event.target.closest('tr').rowIndex - 1,
         event.target.cellIndex
       )
       $("#dialog span").text(zodiacLetterSelected)
-      var myModal = $( "#dialog" ).dialog({
+      var myModal = $("#dialog").dialog({
         width: "auto",
         height: "auto",
         modal: true,
       });
-      $(document).on( "click", "#dialog button", function(event) {
+      $(document).on("click", "#dialog button", function(event) {
         var englishLetter = event.target.innerText
         that.alphabetManager.uiKeyboardAssignment(zodiacLetterSelected, englishLetter)
-        myModal.dialog( "close" );
+        myModal.dialog("close");
       });
     });
   }
   drawSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
-    for (var i=0; i<linesSplit[0].length; i++) {
+    for (var i = 0; i < linesSplit[0].length; i++) {
       $("thead tr", this.el).append($('<th scope="row">').append(i));
     }
-    for (var i=0; i<linesSplit.length; i++) {
+    for (var i = 0; i < linesSplit.length; i++) {
       var row = $('<tr>');
-      for (var j=0; j<linesSplit[i].length; j++) {
+      for (var j = 0; j < linesSplit[i].length; j++) {
         row.append($('<td>'));
       }
       $("tbody", this.el).append(row);
@@ -224,13 +226,13 @@ class SolutionManager {
   }
   renderSolutionTable() {
     var linesSplit = this.cipherText.split(/\n/);
-    for (var i=0; i<linesSplit[0].length; i++) {
+    for (var i = 0; i < linesSplit[0].length; i++) {
       $("thead th", this.el).eq(i).text(
         $("thead th", this.cipherManager.el).eq(i).text()
       )
     }
-    for (var i=0; i<linesSplit.length; i++) {
-      for (var j=0; j<linesSplit[i].length; j++) {
+    for (var i = 0; i < linesSplit.length; i++) {
+      for (var j = 0; j < linesSplit[i].length; j++) {
         $("tbody tr", this.el).eq(i).find('td').eq(j).text(
           this.alphabetManager.resolveEnglishCharacter(
             this.cipherManager.resolveZodiacCharacter(i, j)
@@ -261,12 +263,12 @@ class HoverManager {
         var columnNumber = this.cellIndex
         var rowNumber = this.closest('tr').rowIndex
         // console.log("zodiac char " + zodiacCharBelowMouse + " must be in row " + rowNumber + " in column " + columnNumber)
-        $("tbody tr", that.solutionEl).eq(rowNumber-1).find('td').eq(columnNumber).addClass('cell-hover')
+        $("tbody tr", that.solutionEl).eq(rowNumber - 1).find('td').eq(columnNumber).addClass('cell-hover')
       });
     })
 
-    $( "td", this.cipherEl ).hover(hoveringStarted, this.hoveringEnded);
-    $( "td", this.solutionEl ).hover(hoveringStarted, this.hoveringEnded);
+    $("td", this.cipherEl).hover(hoveringStarted, this.hoveringEnded);
+    $("td", this.solutionEl).hover(hoveringStarted, this.hoveringEnded);
   }
   hoveringEnded(event) {
     $(".cell-hover").removeClass('cell-hover')

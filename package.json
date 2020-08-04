@@ -1,0 +1,54 @@
+{
+  "name": "zodiac-340-solver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "watch": "npm-watch",
+    "build": "npx webpack --config=webpack.config.js",
+    "test": "jasmine-ts --config=jasmine.json"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blockjon/zodiac-340-solver.git"
+  },
+  "author": "Jonathan Block (www.jonathanblock.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blockjon/zodiac-340-solver/issues"
+  },
+  "homepage": "https://github.com/blockjon/zodiac-340-solver#readme",
+  "devDependencies": {
+    "@types/bootstrap": "^4.5.0",
+    "@types/jasmine": "^3.5.12",
+    "@types/jquery": "^3.5.1",
+    "jasmine": "^3.6.1",
+    "jasmine-spec-reporter": "^5.0.2",
+    "jasmine-ts": "^0.3.0",
+    "ts-loader": "^8.0.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "bootstrap": "^4.5.0",
+    "dragtable": "^2.0.12",
+    "jquery": "^3.5.1",
+    "jquery-ui": "^1.12.1",
+    "npm-watch": "^0.6.0",
+    "table-dragger": "^1.0.3"
+  }
+}
