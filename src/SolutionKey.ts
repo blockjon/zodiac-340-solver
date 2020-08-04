@@ -86,10 +86,12 @@ class SolutionKey {
     return uniql;
   }
   examineInputBoxForChanges(event: any) {
+    console.log('examineInputBoxForChanges fired')
     let zodiacCharsEntered = this.scrub(String($(event.target).val()))
     if (zodiacCharsEntered != String($(event.target).val())) {
       $(event.target).val(zodiacCharsEntered)
       console.log("invalid or duplicate chars detected")
+      console.log(`'${zodiacCharsEntered}' != '${String($(event.target).val())}'`)
       return
     }
     for (let i = 0; i < zodiacCharsEntered.length; i++) {
@@ -101,7 +103,6 @@ class SolutionKey {
         return
       }
     }
-
 
     let nexteToz = this.getDefaultEnglishToZodiacMap()
     let nextzToe: { [key: string]: string } = {}

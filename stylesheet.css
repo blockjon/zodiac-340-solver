@@ -27,13 +27,15 @@ td {
   text-align: center;
 }
 
-#cipher td {
+.board td {
   cursor: pointer;
 }
 
-#cipher thead th {
+/**
+.board thead th {
   cursor: move;
 }
+*/
 
 .keyboard-table td {
   border: 0px;

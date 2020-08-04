@@ -49,16 +49,16 @@ class SolutionBoard {
     }
   }
   rerender(solutionKey: any, updatedCipherData: any) {
-    for (let i = 0; i < this.height; i++) {
-      for (let j = 0; j < this.width; j++) {
-        let englishChar = solutionKey.resolveZodiacChar(updatedCipherData[i][j])
-        let currentClearTextChar = this.clearTextData[i][j]
+    for (let row = 0; row < this.height; row++) {
+      for (let column = 0; column < this.width; column++) {
+        let englishChar = solutionKey.resolveZodiacChar(updatedCipherData[row][column])
+        let currentClearTextChar = this.clearTextData[row][column]
         if (englishChar != currentClearTextChar) {
-          $("#solution-board tbody tr").eq(i).find('td').eq(j).text(englishChar)
+          $("#solution-board tbody tr").eq(row).find('td').eq(column).text(englishChar)
+          this.clearTextData[row][column] = englishChar
         }
       }
     }
-    this.clearTextData = updatedCipherData
   }
 }
 

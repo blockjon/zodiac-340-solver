@@ -7,8 +7,17 @@
     "lib": "lib"
   },
   "scripts": {
+    "watch": "npm-watch",
     "build": "npx webpack --config=webpack.config.js",
     "test": "jasmine-ts --config=jasmine.json"
+  },
+  "watch": {
+    "build": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "ts"
+    }
   },
   "repository": {
     "type": "git",
@@ -39,6 +48,7 @@
     "dragtable": "^2.0.12",
     "jquery": "^3.5.1",
     "jquery-ui": "^1.12.1",
+    "npm-watch": "^0.6.0",
     "table-dragger": "^1.0.3"
   }
 }
