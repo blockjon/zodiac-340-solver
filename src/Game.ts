@@ -1,6 +1,6 @@
 import { SolutionKey } from "./SolutionKey"
 import { CipherBoard } from "./CipherBoard"
-import { SolutionBoard } from "../src/SolutionBoard"
+import { SolutionBoard } from "./SolutionBoard"
 import $ from "jquery";
 
 class Game {
