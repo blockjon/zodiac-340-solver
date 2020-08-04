@@ -10,6 +10,10 @@
     font-family: 'untitled2regular';
 }
 
+#solution-key-wrapper {
+  margin-top: 18px;
+}
+
 table {
   line-height: 1;
 }
