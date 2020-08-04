@@ -1,7 +1,7 @@
-import { Game } from "../src/Game"
-import { CipherBoard } from "../src/CipherBoard"
-import { SolutionBoard } from "../src/SolutionBoard"
-import { SolutionKey } from "../src/SolutionKey"
+import { Game } from "./Game"
+import { CipherBoard } from "./CipherBoard"
+import { SolutionBoard } from "./SolutionBoard"
+import { SolutionKey } from "./SolutionKey"
 import $ from "jquery";
 
 let cipherText = `HER>pl^VPk|1LTG2d
@@ -45,6 +45,7 @@ function main() {
   game.setSolutionBoard(solutionBoard)
   game.setSolutionKey(solutionKey)
   game.play();
+  console.log("yay 12")
 }
 
 $(function() {

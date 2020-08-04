@@ -7,9 +7,10 @@
     "lib": "lib"
   },
   "scripts": {
-    "watch": "npm-watch",
+    "start:dev": "node_modules/.bin/webpack-dev-server --entry ./src/index.ts --output-filename dist/bundle.js",
     "build": "npx webpack --config=webpack.config.js",
-    "test": "jasmine-ts --config=jasmine.json"
+    "test": "jasmine-ts --config=jasmine.json",
+    "deploy": "./deploy.sh"
   },
   "watch": {
     "build": {
@@ -41,7 +42,8 @@
     "typescript": "^3.9.7",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.1.0"
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
