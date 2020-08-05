@@ -58,7 +58,7 @@ class CipherBoard {
       for (let i = 0; i < value.length; i++) {
         let column = value[i][0]
         let row = value[i][1]
-        console.log(`row = ${row} column = ${column}`)
+        // console.log(`bigram-cell will be assigned to row = ${row} column = ${column}`)
         $("#cipher-board tbody tr").eq(row).find('td').eq(column).addClass('bigram-cell')
       }
     }
@@ -96,7 +96,7 @@ class CipherBoard {
             break
           }
           bigramCount++
-          console.log(`nextLocation = ${nextLocation}`)
+          // console.log(`nextLocation = ${nextLocation}`)
           let firstCharCoords: any = this.cipherOffsetToCoords(nextLocation)
           bigrams[bigram].push([firstCharCoords.column, firstCharCoords.row])
           let secondCharCoords: any = this.cipherOffsetToCoords(nextLocation + 1)

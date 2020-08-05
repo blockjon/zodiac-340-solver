@@ -45,7 +45,6 @@ function main() {
   game.setSolutionBoard(solutionBoard)
   game.setSolutionKey(solutionKey)
   game.play();
-  console.log("yay 12")
 }
 
 $(function() {

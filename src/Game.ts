@@ -45,7 +45,7 @@ class Game {
     this.cipherBoard.init(this.cipherText)
     this.solutionBoard.init(this.cipherBoard.getHeight(), this.cipherBoard.getWidth())
     this.watchMouseHoverEvents()
-    console.log("Lets play a game")
+    // console.log("Lets play a game")
   }
   watchMouseHoverEvents() {
     let that: any = this
