@@ -14,64 +14,73 @@
     <title>Zodiac 340 Solver</title>
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-2">
-          <div class="row" id="solution-key-wrapper">
+    <div class="mobileShow">
+      <p>Sorry mobile users - this zodiac solver is meant to work on desktop only. Visit this page on your desktop computer. If the web version gets lots of usage and positive feedback, I'll consider making a mobile version.</p>
+      <p>- <a href="https://www.linkedin.com/in/jonathanblockengineer/">Jonathan Block</a></p>
+    </div>
+    <div class="mobileHide">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-2">
+            <div class="row" id="solution-key-wrapper">
+            </div>
+            <div>
+              <p>Try to create a homophonic substitution cipher solution key by mapping Zodiac characters to english characters. Use your mouse to copy zodiac characters and to paste them into the solution key above.</p>
+              <p>Created by <a href="https://www.linkedin.com/in/jonathanblockengineer/">Jonathan Block</a></p>
+            </div>
           </div>
-          <div>
-            <p>Create a solution key by mapping Zodiac characters to english characters. Use your mouse to copy zodiac characters and to paste them into the solution key.</p>
-            <p>Created by <a href="https://www.linkedin.com/in/jonathanblockengineer/">Jonathan Block</a></p>
+          <div class="col-5">
+            <table id="cipher-board" class="board">
+              <thead>
+                <tr>
+                </tr>
+              </thead>
+              <tbody class="cipherText">
+              </tbody>
+            </table>
+            <div>
+              unique bigrams: <span id="unique-bigrams"></span> (colored yellow)
+            </div>
+          </div>
+          <div class="col-5">
+            <table id="solution-board" class="board">
+              <thead>
+                <tr>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
           </div>
         </div>
-        <div class="col-5">
-          <table id="cipher-board" class="board">
-            <thead>
-              <tr>
-              </tr>
-            </thead>
-            <tbody class="cipherText">
-            </tbody>
-          </table>
-        </div>
-        <div class="col-5">
-          <table id="solution-board" class="board">
-            <thead>
-              <tr>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <hr size="1" style="color: grey"/>
-          <h3>About</h3>
-          <p>
-              In November 8th 1969, the "Zodiac Killer" sent the <a href="http://zodiackillerciphers.com/wiki/images/7/7d/340-cipher-hi-resolution.jpg">340 cipher</a> to The San Francisco Chronicle that has never
-              been solved, even after 50 years of people trying to crack it.
-          </p>
-          <p>
-              A Hollywood movie called <a href="https://www.youtube.com/watch?v=yNncHPl1UXg">Zodiac</a> inspired me to try a few techniques on paper and I decided to create this tool once I realized how much easier this would be to puzzle through in an online format.
-          </p>
-          <p>
-              Since it's been 50 years with no solution, the cipher is either a hoax or it has some advanced transpositions or encipherment that has not been guessed.
-          </p>
-          <p>
-              I might add more features to this like showing stats about bigrams and sequences, options to save or share progress, and more options to try out other kinds of transpositions such as the period 19
-              transposition discussed by David Oranchak in <a href="https://www.youtube.com/watch?v=3Hk__Hk5c9M">his presentation on this cipher</a>. If you have some ideas for features I should add to this tool, feel free to <a href="https://github.com/blockjon/zodiac-340-solver/issues">post them as "issues" on GitHub</a>.
-          </p>
+        <div class="row">
+          <div class="col-12">
+            <hr size="1" style="color: grey"/>
+            <h3>About</h3>
+            <p>
+                In November 8th 1969, the "Zodiac Killer" sent the <a href="http://zodiackillerciphers.com/wiki/images/7/7d/340-cipher-hi-resolution.jpg">340 cipher</a> to The San Francisco Chronicle that has never
+                been solved, even after 50 years of people trying to crack it.
+            </p>
+            <p>
+                A Hollywood movie called <a href="https://www.youtube.com/watch?v=yNncHPl1UXg">Zodiac</a> inspired me to try a few techniques on paper and I decided to create this tool once I realized how much easier this would be to puzzle through in an online format.
+            </p>
+            <p>
+                Since it's been 50 years with no solution, the cipher is either a hoax or it has some advanced transpositions or encipherment that has not been guessed.
+            </p>
+            <p>
+                I might add more features to this like showing stats about bigrams and sequences, options to save or share progress, and more options to try out other kinds of transpositions such as the period 19
+                transposition discussed by David Oranchak in <a href="https://www.youtube.com/watch?v=3Hk__Hk5c9M">his presentation on this cipher</a>. If you have some ideas for features I should add to this tool, feel free to <a href="https://github.com/blockjon/zodiac-340-solver/issues">post them as "issues" on GitHub</a>.
+            </p>
 
-          <p>Source located on <a href="https://github.com/blockjon/zodiac-340-solver">GitHub</a>.</p>
-          <p>
-              Additional links:
-              <ul>
-                  <li><a href="http://www.zodiackillerciphers.com/">zodiackillerciphers.com</a></li>
-                  <li><a href="https://www.youtube.com/results?search_query=Let%27s+Crack+Zodiac+david+oranchak">David Oranchak's cipher videos on YouTube</a></li>
-              </ul>
-          </p>
+            <p>Source located on <a href="https://github.com/blockjon/zodiac-340-solver">GitHub</a>.</p>
+            <p>
+                Additional links:
+                <ul>
+                    <li><a href="http://www.zodiackillerciphers.com/">zodiackillerciphers.com</a></li>
+                    <li><a href="https://www.youtube.com/results?search_query=Let%27s+Crack+Zodiac+david+oranchak">David Oranchak's cipher videos on YouTube</a></li>
+                </ul>
+            </p>
+          </div>
         </div>
       </div>
     </div>
