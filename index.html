@@ -1,13 +1,9 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
     <link rel="stylesheet" href="css/stylesheet.css?v=1" type="text/css" charset="utf-8" />
     <title>Zodiac 340 Solver</title>
   </head>
@@ -23,7 +19,7 @@
             <div class="row" id="solution-key-wrapper">
             </div>
             <div>
-              <p>Try to create a homophonic substitution cipher solution key by mapping Zodiac characters to english characters. Use your mouse to copy zodiac characters and to paste them into the solution key above.</p>
+              <p>Use your mouse to copy/paste zodiac characters into the homophonic substitution cipher solution key above.</p>
               <p>Created by <a href="https://www.linkedin.com/in/jonathanblockengineer/">Jonathan Block</a></p>
             </div>
           </div>
@@ -56,7 +52,7 @@
             <hr size="1" style="color: grey"/>
             <h3>About</h3>
             <p>
-                In November 8th 1969, the "Zodiac Killer" sent the <a href="http://zodiackillerciphers.com/wiki/images/7/7d/340-cipher-hi-resolution.jpg">340 cipher</a> to The San Francisco Chronicle that has never
+                On November 8th 1969, the "Zodiac Killer" sent the <a href="http://zodiackillerciphers.com/wiki/images/7/7d/340-cipher-hi-resolution.jpg">340 cipher</a> to The San Francisco Chronicle that has never
                 been solved, even after 50 years of people trying to crack it.
             </p>
             <p>
@@ -80,6 +76,14 @@
             </p>
           </div>
         </div>
+      </div>
+    </div>
+    <div id="overlay">
+      <div class="overlay-frame">
+        <div>
+          <p id="modal-title">Choose an english character for zodiac <span class="cipherText" id="zodiacCharClickedOn"></span></p>
+        </div>
+        <div id="keyboard-buttons"></div>
       </div>
     </div>
     <script src="dist/bundle.js?v=5"></script>

@@ -2,6 +2,7 @@ import { Game } from "./Game"
 import { CipherBoard } from "./CipherBoard"
 import { SolutionBoard } from "./SolutionBoard"
 import { SolutionKey } from "./SolutionKey"
+import { FloatingKeyboard } from "./FloatingKeyboard"
 import $ from "jquery";
 
 let cipherText = `HER>pl^VPk|1LTG2d
@@ -36,7 +37,13 @@ function main() {
   solutionBoard.setSolutionKey(solutionKey)
 
   let cipherBoard = new CipherBoard();
+  let floatingKeyboard = new FloatingKeyboard();
+  floatingKeyboard.init()
+  floatingKeyboard.addLetterSelectedHandler((zodiacCharacter: string, englishCharacter: string) => {
+    solutionKey.uiKeyboardClicked.call(solutionKey, zodiacCharacter, englishCharacter)
+  })
   cipherBoard.setRootElement($("#cipher-board"))
+  cipherBoard.setFloatingKeyboard(floatingKeyboard)
 
   let game = new Game();
   solutionKey.addChangeListener(() => game.handleSolutionKeyUpdated.call(game))

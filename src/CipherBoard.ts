@@ -1,3 +1,4 @@
+import { FloatingKeyboard } from "./FloatingKeyboard";
 import $ from "jquery";
 
 class CipherBoard {
@@ -7,8 +8,12 @@ class CipherBoard {
   data: Array<Array<string>> = [];
   zodiacCharLocations: { [key: string]: Array<Array<number>> } = {};
   cipherStats: any = {};
+  floatingKeyboard: FloatingKeyboard
   constructor() {
-
+    this.floatingKeyboard = new FloatingKeyboard()
+  }
+  setFloatingKeyboard(floatingKeyboard: FloatingKeyboard) {
+    this.floatingKeyboard = floatingKeyboard
   }
   sayHello() {
     return 'hello'
@@ -44,7 +49,7 @@ class CipherBoard {
     for (let i = 0; i < this.data.length; i++) {
       let row: any = $('<tr>');
       for (let j = 0; j < this.data[i].length; j++) {
-        row.append($("<td>").append(this.data[i][j]))
+        row.append($("<td class=\"solver-cell\">").append(this.data[i][j]))
       }
       row = tbody.append(row);
     }
@@ -58,10 +63,16 @@ class CipherBoard {
       for (let i = 0; i < value.length; i++) {
         let column = value[i][0]
         let row = value[i][1]
-        // console.log(`bigram-cell will be assigned to row = ${row} column = ${column}`)
         $("#cipher-board tbody tr").eq(row).find('td').eq(column).addClass('bigram-cell')
       }
     }
+    document.addEventListener('click', (e: any) => {
+      if (e.target.classList.contains('solver-cell')) {
+        let x = e.target.cellIndex
+        let y = e.target.parentNode.rowIndex - 1
+        this.floatingKeyboard.open(this.data[y][x])
+      }
+    });
   }
   detectStats() {
     let bigrams: { [key: string]: Array<Array<number>> } = {};

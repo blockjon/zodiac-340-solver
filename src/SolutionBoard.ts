@@ -43,7 +43,7 @@ class SolutionBoard {
       // console.log(`adding row ${i}`)
       for (let j = 0; j < this.clearTextData[i].length; j++) {
         // console.log(`adding column ${j}`)
-        row.append($("<td>").append(''))
+        row.append($("<td class=\"solver-cell\">").append(''))
       }
       tbody.append(row);
     }

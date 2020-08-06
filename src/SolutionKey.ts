@@ -8,6 +8,11 @@ class SolutionKey {
   constructor() {
     this.eToZ = this.getDefaultEnglishToZodiacMap()
   }
+  uiKeyboardClicked(zodiacCharacter: string, englishCharacter: string) {
+    let inputBox = $(`input[data-english-letter='${englishCharacter}']`, $("#solution-key-wrapper"))
+    inputBox.val(inputBox.val() + zodiacCharacter)
+    this.examineInputBoxForChanges(inputBox)
+  }
   getDefaultEnglishToZodiacMap() {
     let result: any = {}
     for (let i = 65; i <= 90; i++) {
@@ -71,7 +76,7 @@ class SolutionKey {
         });
       }
     }
-    let handleInputBoxModified = (event: any) => this.examineInputBoxForChanges(event)
+    let handleInputBoxModified = (event: any) => this.examineInputBoxForChanges($(event.target))
     $(this.rootElement).on("keyup", ".zodiacCharactersForLetter", handleInputBoxModified);
   }
   scrub(input: string) {
@@ -85,20 +90,20 @@ class SolutionKey {
     }
     return uniql;
   }
-  examineInputBoxForChanges(event: any) {
+  examineInputBoxForChanges(inputBox: any) {
     console.log('examineInputBoxForChanges fired')
-    let zodiacCharsEntered = this.scrub(String($(event.target).val()))
-    if (zodiacCharsEntered != String($(event.target).val())) {
-      $(event.target).val(zodiacCharsEntered)
+    let zodiacCharsEntered = this.scrub(String(inputBox.val()))
+    if (zodiacCharsEntered != String(inputBox.val())) {
+      inputBox.val(zodiacCharsEntered)
       console.log("invalid or duplicate chars detected")
-      console.log(`'${zodiacCharsEntered}' != '${String($(event.target).val())}'`)
+      console.log(`'${zodiacCharsEntered}' != '${String(inputBox.val())}'`)
       return
     }
     for (let i = 0; i < zodiacCharsEntered.length; i++) {
       let zCharToCheck: string = zodiacCharsEntered[i]
-      let englishLetter: string = String($(event.target).attr('data-english-letter'))
+      let englishLetter: string = String(inputBox.attr('data-english-letter'))
       if (zCharToCheck in this.zToE && this.zToE[zCharToCheck] != englishLetter) {
-        $(event.target).val(this.eToZ[englishLetter].join(''))
+        inputBox.val(this.eToZ[englishLetter].join(''))
         console.log("char already in use")
         return
       }
