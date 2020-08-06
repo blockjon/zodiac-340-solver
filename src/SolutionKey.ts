@@ -91,12 +91,10 @@ class SolutionKey {
     return uniql;
   }
   examineInputBoxForChanges(inputBox: any) {
-    console.log('examineInputBoxForChanges fired')
     let zodiacCharsEntered = this.scrub(String(inputBox.val()))
     if (zodiacCharsEntered != String(inputBox.val())) {
       inputBox.val(zodiacCharsEntered)
       console.log("invalid or duplicate chars detected")
-      console.log(`'${zodiacCharsEntered}' != '${String(inputBox.val())}'`)
       return
     }
     for (let i = 0; i < zodiacCharsEntered.length; i++) {
