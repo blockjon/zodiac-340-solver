@@ -19,7 +19,7 @@ class CipherBoard {
     let that: any = this
     $("#select-transpose").on("change", (event: any) => {
       let strategy = event.target[event.target.selectedIndex].value
-      if (strategy == 'unzip') {
+      if (strategy == 'zip') {
         that.openTranspositionConfirmation(
           strategy,
           `The ciphertext first is converted into a string left to right top down. Next, the zodiac letters are inserted back onto the board one column at a time starting with column 1 top to bottom and then on to column 2 top to bottom etc.`
@@ -29,8 +29,8 @@ class CipherBoard {
     document.addEventListener('click', (e: any) => {
       if (["cancel-transposition", "apply-transposition"].includes(e.target.id)) {
         if (e.target.id == "apply-transposition") {
-          if (this.transpositionStrategySelected == 'unzip') {
-            this.transposeUnzip()
+          if (this.transpositionStrategySelected == 'zip') {
+            this.transposeZip()
           }
           this.notifyTranspositionHappened()
         }
@@ -231,7 +231,7 @@ class CipherBoard {
   getAllLocationsOfZodiacChar(zodiacChar: string) {
     return this.zodiacCharLocations[zodiacChar]
   }
-  transposeUnzip() {
+  transposeZip() {
     let newData: Array<Array<string>> = [];
     let longCipher: Array<string> = [];
     for (let i = 0; i < this.data.length; i++) {
