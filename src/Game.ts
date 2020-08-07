@@ -4,7 +4,6 @@ import { SolutionBoard } from "./SolutionBoard"
 import $ from "jquery";
 
 class Game {
-  cipherText: string = ''
   solutionKey: SolutionKey
   cipherBoard: CipherBoard
   solutionBoard: SolutionBoard
@@ -16,17 +15,11 @@ class Game {
   setSolutionKey(solutionKey: SolutionKey) {
     this.solutionKey = solutionKey
   }
-  setCipherText(cipherText: string) {
-    this.cipherText = cipherText
-  }
   setCipherBoard(cipherBoard: CipherBoard) {
     this.cipherBoard = cipherBoard
   }
   setSolutionBoard(solutionBoard: SolutionBoard) {
     this.solutionBoard = solutionBoard
-  }
-  getCipherText() {
-    return this.cipherText
   }
   sayHello() {
     return 'hello'
@@ -38,20 +31,34 @@ class Game {
       this.cipherBoard.getData()
     )
   }
-  play() {
-    if (this.cipherText.length == 0) {
-      throw new Error("Please provide a cipherText to Game")
+  handleTranspositionApplied() {
+    this.solutionBoard.rerender.call(
+      this.solutionBoard,
+      this.solutionKey,
+      this.cipherBoard.getData()
+    )
+  }
+  parseCipherText(rawInput: string) {
+    let data: Array<Array<string>> = [];
+    let lines: Array<string> = rawInput.split("\n")
+    for (let i = 0; i < lines.length; i++) {
+      let row: Array<string> = lines[i].split('')
+      data.push(row)
     }
-    this.cipherBoard.init(this.cipherText)
+    return data
+  }
+  play(cipherText: string) {
+    let data = this.parseCipherText(cipherText)
+    this.cipherBoard.init(data)
+    this.cipherBoard.listenForClicksOnCells()
     this.solutionBoard.init(this.cipherBoard.getHeight(), this.cipherBoard.getWidth())
     this.watchMouseHoverEvents()
-    // console.log("Lets play a game")
   }
   watchMouseHoverEvents() {
     let that: any = this
-    $("table td").hover(function(e) {
+    $("table tbody").on("mouseenter", "td", function(e: any) {
       that.hoveringStarted(e)
-    }, function(e) {
+    }).on("mouseleave", "td", function(e: any) {
       that.hoveringEnded(e)
     });
   }

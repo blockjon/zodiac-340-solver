@@ -6,11 +6,6 @@ describe("Game Class Testing", function() {
       var game = new Game();
       expect(game.sayHello()).toEqual("hello");
     });
-    it("Cipher set and get", function() {
-      var game = new Game();
-      game.setCipherText("ABC")
-      expect(game.getCipherText()).toEqual("ABC");
-    });
   });
 
 });

@@ -3,14 +3,53 @@ import $ from "jquery";
 
 class CipherBoard {
   rootElement: any = null;
-  originalCipherText: string = '';
   columnOrder: Array<number> = [];
   data: Array<Array<string>> = [];
   zodiacCharLocations: { [key: string]: Array<Array<number>> } = {};
   cipherStats: any = {};
   floatingKeyboard: FloatingKeyboard
+  transpositionModal: any
+  transpositionStrategySelected: string = ''
+  transpositionListeners: Array<any> = [];
   constructor() {
     this.floatingKeyboard = new FloatingKeyboard()
+    this.transpositionModal = document.getElementById("transpose-overlay")
+  }
+  listenForTransposeSelectorChange() {
+    let that: any = this
+    $("#select-transpose").on("change", (event: any) => {
+      let strategy = event.target[event.target.selectedIndex].value
+      if (strategy == 'unzip') {
+        that.openTranspositionConfirmation(
+          strategy,
+          `The ciphertext first is converted into a string left to right top down. Next, the zodiac letters are inserted back onto the board one column at a time starting with column 1 top to bottom and then on to column 2 top to bottom etc.`
+        )
+      }
+    });
+    document.addEventListener('click', (e: any) => {
+      if (["cancel-transposition", "apply-transposition"].includes(e.target.id)) {
+        if (e.target.id == "apply-transposition") {
+          if (this.transpositionStrategySelected == 'unzip') {
+            this.transposeUnzip()
+          }
+          this.notifyTranspositionHappened()
+        }
+        this.closeTranspositionConfirmation()
+        let dropdownEl: any = document.getElementById("select-transpose")
+        dropdownEl.selectedIndex = 0
+      }
+    });
+  }
+  openTranspositionConfirmation(strategy: string, description: string) {
+    let titleEl: any = document.getElementById("transposition-title")
+    titleEl.innerHTML = strategy
+    let descEl: any = document.getElementById("transposition-description")
+    descEl.innerHTML = description
+    this.transpositionModal.style.visibility = "visible"
+    this.transpositionStrategySelected = strategy
+  }
+  closeTranspositionConfirmation() {
+    this.transpositionModal.style.visibility = "hidden"
   }
   setFloatingKeyboard(floatingKeyboard: FloatingKeyboard) {
     this.floatingKeyboard = floatingKeyboard
@@ -30,28 +69,38 @@ class CipherBoard {
   getData() {
     return this.data
   }
-  init(cipherText: string) {
-    this.originalCipherText = cipherText;
-    for (let i = 0; i < this.originalCipherText.split("\n")[0].length; i++) {
+  init(data: Array<Array<string>>) {
+    this.columnOrder = []
+    this.data = data
+    for (let i = 0; i < data[0].length; i++) {
       this.columnOrder.push(i)
     }
-    let lines: Array<string> = this.originalCipherText.split("\n")
-    for (let i = 0; i < lines.length; i++) {
-      let row: Array<string> = lines[i].split('')
-      this.data.push(row)
-    }
+
     // Render the headers.
-    let tHeadTr = $("thead tr", this.rootElement)
-    for (let x = 0; x < this.columnOrder.length; x++) {
-      $("thead tr", this.rootElement).append($('<th class="handle" scope="row">').append(`${x}`));
+    const thead: any = document.getElementById("cipher-thead")
+    while (thead.firstChild) {
+      thead.removeChild(thead.lastChild)
     }
-    let tbody = $("tbody", this.rootElement)
+    let theadTr: any = document.createElement('tr');
+    thead.appendChild(theadTr)
+    for (let x = 0; x < this.columnOrder.length; x++) {
+      let th = document.createElement('th');
+      let newText = document.createTextNode(String(x))
+      th.appendChild(newText)
+      theadTr.appendChild(th);
+    }
+    const tbody: any = document.getElementById("cipher-board-tbody")
+    while (tbody.firstChild) {
+      tbody.removeChild(tbody.lastChild)
+    }
     for (let i = 0; i < this.data.length; i++) {
-      let row: any = $('<tr>');
+      let row: any = tbody.insertRow();
       for (let j = 0; j < this.data[i].length; j++) {
-        row.append($("<td class=\"solver-cell\">").append(this.data[i][j]))
+        let cell = row.insertCell(j)
+        cell.classList.add("solver-cell");
+        let newText = document.createTextNode(this.data[i][j])
+        cell.appendChild(newText)
       }
-      row = tbody.append(row);
     }
     this.cacheZodiacCharLocations()
     this.cipherStats = this.detectStats()
@@ -66,6 +115,8 @@ class CipherBoard {
         $("#cipher-board tbody tr").eq(row).find('td').eq(column).addClass('bigram-cell')
       }
     }
+  }
+  listenForClicksOnCells() {
     document.addEventListener('click', (e: any) => {
       if (e.target.classList.contains('solver-cell')) {
         let x = e.target.cellIndex
@@ -179,6 +230,30 @@ class CipherBoard {
   }
   getAllLocationsOfZodiacChar(zodiacChar: string) {
     return this.zodiacCharLocations[zodiacChar]
+  }
+  transposeUnzip() {
+    let newData: Array<Array<string>> = [];
+    let longCipher: Array<string> = [];
+    for (let i = 0; i < this.data.length; i++) {
+      longCipher = longCipher.concat(this.data[i])
+    }
+    for (let i = 0; i < this.data.length; i++) {
+      newData.push([])
+    }
+    for (let i = 0; i < longCipher.length; i++) {
+      newData[i % this.data.length].push(longCipher[i])
+    }
+    this.init(newData)
+  }
+  addTranspositionListener(listener: any) {
+    this.transpositionListeners.push(listener)
+  }
+  notifyTranspositionHappened() {
+    if (this.transpositionListeners.length) {
+      for (let i = 0; i < this.transpositionListeners.length; i++) {
+        this.transpositionListeners[i]()
+      }
+    }
   }
 }
 

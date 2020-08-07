@@ -23,9 +23,17 @@ class SolutionBoard {
   init(height: number, width: number) {
     this.height = height
     this.width = width
-    let tHeadTr = $("thead tr", this.rootElement)
+    const thead: any = document.getElementById("solution-thead")
+    let theadTr: any = document.createElement('tr');
+    thead.appendChild(theadTr)
+    while (theadTr.firstChild) {
+      theadTr.removeChild(theadTr.lastChild)
+    }
     for (let x = 0; x < this.width; x++) {
-      $("thead tr", this.rootElement).append($('<th scope="row">').append(`${x}`));
+      let th = document.createElement('th');
+      let newText = document.createTextNode(String(x))
+      th.appendChild(newText)
+      theadTr.appendChild(th);
     }
     for (let i = 0; i < this.height; i++) {
       let row: Array<string> = []
@@ -37,15 +45,15 @@ class SolutionBoard {
     this.render()
   }
   render() {
-    let tbody = $("tbody", this.rootElement)
+    const tbody: any = document.getElementById("solution-board-tbody")
     for (let i = 0; i < this.clearTextData.length; i++) {
-      let row = $('<tr>');
-      // console.log(`adding row ${i}`)
+      let row: any = tbody.insertRow();
       for (let j = 0; j < this.clearTextData[i].length; j++) {
-        // console.log(`adding column ${j}`)
-        row.append($("<td class=\"solver-cell\">").append(''))
+        let cell = row.insertCell(j)
+        cell.classList.add("solver-cell");
+        let newText = document.createTextNode(this.clearTextData[i][j])
+        cell.appendChild(newText)
       }
-      tbody.append(row);
     }
   }
   rerender(solutionKey: any, updatedCipherData: any) {

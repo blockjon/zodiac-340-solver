@@ -37,6 +37,8 @@ function main() {
   solutionBoard.setSolutionKey(solutionKey)
 
   let cipherBoard = new CipherBoard();
+  cipherBoard.listenForTransposeSelectorChange();
+
   let floatingKeyboard = new FloatingKeyboard();
   floatingKeyboard.init()
   floatingKeyboard.addLetterSelectedHandler((zodiacCharacter: string, englishCharacter: string) => {
@@ -44,14 +46,14 @@ function main() {
   })
   cipherBoard.setRootElement($("#cipher-board"))
   cipherBoard.setFloatingKeyboard(floatingKeyboard)
+  cipherBoard.addTranspositionListener(() => game.handleTranspositionApplied.call(game))
 
   let game = new Game();
   solutionKey.addChangeListener(() => game.handleSolutionKeyUpdated.call(game))
-  game.setCipherText(cipherText);
   game.setCipherBoard(cipherBoard)
   game.setSolutionBoard(solutionBoard)
   game.setSolutionKey(solutionKey)
-  game.play();
+  game.play(cipherText);
 }
 
 $(function() {

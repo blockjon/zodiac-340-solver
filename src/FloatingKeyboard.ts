@@ -3,7 +3,7 @@ class FloatingKeyboard {
   zodiacCharacterSelected: string = ""
   letterSelectedHandlers: Array<any> = []
   constructor() {
-    this.el = document.getElementById("overlay")
+    this.el = document.getElementById("keyboard-overlay")
   }
   addLetterSelectedHandler(handler: any) {
     this.letterSelectedHandlers.push(handler)

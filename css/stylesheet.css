@@ -28,6 +28,10 @@
     font-family: 'untitled2regular';
 }
 
+#select-transpose {
+  margin-top: 18px;
+}
+
 #solution-key-wrapper {
   margin-top: 18px;
 }
@@ -85,7 +89,7 @@ td {
   background-color: #fdffcc;
 }
 
-#overlay {
+.overlay {
   visibility: hidden;
   position: absolute;
   left: 0px;
@@ -96,7 +100,7 @@ td {
   z-index: 1000;
 }
 
-#overlay .overlay-frame {
+.keyboard-overlay-frame {
   width:500px;
   height: 220px;
   margin: 100px auto;
@@ -108,4 +112,8 @@ td {
 
 #zodiacCharClickedOn {
   font-size: 35px;
+}
+
+#transposition-title {
+  font-weight: bold;
 }
