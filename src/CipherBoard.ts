@@ -1,5 +1,4 @@
 import { FloatingKeyboard } from "./FloatingKeyboard";
-import $ from "jquery";
 
 class CipherBoard {
   rootElement: any = null;
@@ -17,15 +16,17 @@ class CipherBoard {
   }
   listenForTransposeSelectorChange() {
     let that: any = this
-    $("#select-transpose").on("change", (event: any) => {
-      let strategy = event.target[event.target.selectedIndex].value
-      if (strategy == 'zip') {
-        that.openTranspositionConfirmation(
-          strategy,
-          `The ciphertext first is converted into a string left to right top down. Next, the zodiac letters are inserted back onto the board one column at a time starting with column 1 top to bottom and then on to column 2 top to bottom etc.`
-        )
+    document.addEventListener('change', (event: any) => {
+      if (event.target.id == "select-transpose") {
+        let strategy = event.target[event.target.selectedIndex].value
+        if (strategy == 'zip') {
+          that.openTranspositionConfirmation(
+            strategy,
+            `The ciphertext first is converted into a string left to right top down. Next, the zodiac letters are inserted back onto the board one column at a time starting with column 1 top to bottom and then on to column 2 top to bottom etc.`
+          )
+        }
       }
-    });
+    })
     document.addEventListener('click', (e: any) => {
       if (["cancel-transposition", "apply-transposition"].includes(e.target.id)) {
         if (e.target.id == "apply-transposition") {
@@ -105,14 +106,16 @@ class CipherBoard {
     this.cacheZodiacCharLocations()
     this.cipherStats = this.detectStats()
 
-    $("#unique-bigrams").text(this.cipherStats.uniqueBigrams)
-    $("#bigram-count").text(this.cipherStats.bigramCount)
+    let ubgEl: any = document.getElementById("unique-bigrams")
+    ubgEl.textContent = this.cipherStats.uniqueBigrams
+
+    let cipherBoardTbody: any = document.getElementById("cipher-board-tbody")
     for (let key of Object.keys(this.cipherStats.bigrams)) {
       let value = this.cipherStats.bigrams[key]
       for (let i = 0; i < value.length; i++) {
         let column = value[i][0]
         let row = value[i][1]
-        $("#cipher-board tbody tr").eq(row).find('td').eq(column).addClass('bigram-cell')
+        cipherBoardTbody.rows[row].cells[column].classList.add("bigram-cell");
       }
     }
   }
@@ -158,7 +161,6 @@ class CipherBoard {
             break
           }
           bigramCount++
-          // console.log(`nextLocation = ${nextLocation}`)
           let firstCharCoords: any = this.cipherOffsetToCoords(nextLocation)
           bigrams[bigram].push([firstCharCoords.column, firstCharCoords.row])
           let secondCharCoords: any = this.cipherOffsetToCoords(nextLocation + 1)
