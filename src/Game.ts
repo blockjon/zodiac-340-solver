@@ -36,6 +36,7 @@ class Game {
       this.solutionKey,
       this.cipherBoard.getData()
     )
+    this.watchMouseHoverEvents()
   }
   parseCipherText(rawInput: string) {
     let data: Array<Array<string>> = [];
