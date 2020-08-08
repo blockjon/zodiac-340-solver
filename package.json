@@ -46,8 +46,6 @@
   },
   "dependencies": {
     "bootstrap": "^4.5.0",
-    "dragtable": "^2.0.12",
-    "npm-watch": "^0.6.0",
-    "table-dragger": "^1.0.3"
+    "npm-watch": "^0.6.0"
   }
 }

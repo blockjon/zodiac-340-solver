@@ -1,4 +1,6 @@
 import { FloatingKeyboard } from "./FloatingKeyboard";
+import { Unzip } from "./TransposeStrategy/Unzip";
+import { Reverse } from "./TransposeStrategy/Reverse";
 
 class CipherBoard {
   rootElement: any = null;
@@ -19,10 +21,16 @@ class CipherBoard {
     document.addEventListener('change', (event: any) => {
       if (event.target.id == "select-transpose") {
         let strategy = event.target[event.target.selectedIndex].value
-        if (strategy == 'zip') {
+        if (strategy == 'unzip') {
           that.openTranspositionConfirmation(
             strategy,
             `The ciphertext first is converted into a string left to right top down. Next, the zodiac letters are inserted back onto the board one column at a time starting with column 1 top to bottom and then on to column 2 top to bottom etc.`
+          )
+        }
+        if (strategy == 'reverse') {
+          that.openTranspositionConfirmation(
+            strategy,
+            `The ciphertext will be reversed.`
           )
         }
       }
@@ -30,8 +38,13 @@ class CipherBoard {
     document.addEventListener('click', (e: any) => {
       if (["cancel-transposition", "apply-transposition"].includes(e.target.id)) {
         if (e.target.id == "apply-transposition") {
-          if (this.transpositionStrategySelected == 'zip') {
-            this.transposeZip()
+          if (this.transpositionStrategySelected == 'unzip') {
+            this.init(new Unzip().perform(this.data))
+          }
+          if (this.transpositionStrategySelected == 'reverse') {
+            this.init(
+              new Reverse().perform(this.data)
+            )
           }
           this.notifyTranspositionHappened()
         }
@@ -232,20 +245,6 @@ class CipherBoard {
   }
   getAllLocationsOfZodiacChar(zodiacChar: string) {
     return this.zodiacCharLocations[zodiacChar]
-  }
-  transposeZip() {
-    let newData: Array<Array<string>> = [];
-    let longCipher: Array<string> = [];
-    for (let i = 0; i < this.data.length; i++) {
-      longCipher = longCipher.concat(this.data[i])
-    }
-    for (let i = 0; i < this.data.length; i++) {
-      newData.push([])
-    }
-    for (let i = 0; i < longCipher.length; i++) {
-      newData[i % this.data.length].push(longCipher[i])
-    }
-    this.init(newData)
   }
   addTranspositionListener(listener: any) {
     this.transpositionListeners.push(listener)
