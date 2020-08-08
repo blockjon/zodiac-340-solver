@@ -33,7 +33,6 @@
   "devDependencies": {
     "@types/bootstrap": "^4.5.0",
     "@types/jasmine": "^3.5.12",
-    "@types/jquery": "^3.5.1",
     "jasmine": "^3.6.1",
     "jasmine-spec-reporter": "^5.0.2",
     "jasmine-ts": "^0.3.0",
@@ -48,8 +47,6 @@
   "dependencies": {
     "bootstrap": "^4.5.0",
     "dragtable": "^2.0.12",
-    "jquery": "^3.5.1",
-    "jquery-ui": "^1.12.1",
     "npm-watch": "^0.6.0",
     "table-dragger": "^1.0.3"
   }
