@@ -1,5 +1,3 @@
-import $ from "jquery";
-
 class SolutionKey {
   eToZ: { [key: string]: Array<string> } = {};
   zToE: { [key: string]: string } = {};
@@ -9,8 +7,8 @@ class SolutionKey {
     this.eToZ = this.getDefaultEnglishToZodiacMap()
   }
   uiKeyboardClicked(zodiacCharacter: string, englishCharacter: string) {
-    let inputBox = $(`input[data-english-letter='${englishCharacter}']`, $("#solution-key-wrapper"))
-    inputBox.val(inputBox.val() + zodiacCharacter)
+    let inputBox: any = document.querySelectorAll(`[data-english-letter=${englishCharacter}]`)[0];
+    inputBox.value = inputBox.value + zodiacCharacter // (inputBox.val() + zodiacCharacter)
     this.examineInputBoxForChanges(inputBox)
   }
   getDefaultEnglishToZodiacMap() {
@@ -56,9 +54,8 @@ class SolutionKey {
     if (this.rootElement == null) {
       throw new Error("Missing root element property")
     }
-    let columnDiv = $("<div>", {
-      "class": "col"
-    });
+    let columnDiv: any = document.createElement("DIV");
+    columnDiv.classList.add("col")
     for (var i = 65; i <= 90; i++) {
       let letter = String.fromCharCode(i).toUpperCase()
       let html = '' +
@@ -68,16 +65,21 @@ class SolutionKey {
         '  </div>' +
         '  <input type="text" class="form-control cipherText zodiacCharactersForLetter" data-english-letter="' + letter + '">' +
         '</div>';
-      columnDiv.append(html)
+      let elements = this.htmlToElements(html)
+      columnDiv.appendChild(elements[0])
       if (i == 77 || i == 90) {
-        this.rootElement.append(columnDiv)
-        columnDiv = $("<div>", {
-          "class": "col"
-        });
+        this.rootElement.appendChild(columnDiv)
+        columnDiv = document.createElement("DIV");
+        columnDiv.classList.add("col")
       }
     }
-    let handleInputBoxModified = (event: any) => this.examineInputBoxForChanges($(event.target))
-    $(this.rootElement).on("keyup", ".zodiacCharactersForLetter", handleInputBoxModified);
+    let handleInputBoxModified = (event: any) => this.examineInputBoxForChanges(event.target)
+    let zcharInputEls: any = document.querySelectorAll(".zodiacCharactersForLetter")
+    zcharInputEls.forEach(function(zcharInputEl: any) {
+      zcharInputEl.addEventListener('keyup', (event: any) => {
+        handleInputBoxModified(event)
+      })
+    })
   }
   scrub(input: string) {
     let re = /[^#%&()*+./123456789:;<>@ABCDEFGHJKLMNOPRSTUVWXYZ^_bcdfjklpqtyz|-]/g;
@@ -91,17 +93,17 @@ class SolutionKey {
     return uniql;
   }
   examineInputBoxForChanges(inputBox: any) {
-    let zodiacCharsEntered = this.scrub(String(inputBox.val()))
-    if (zodiacCharsEntered != String(inputBox.val())) {
-      inputBox.val(zodiacCharsEntered)
+    let zodiacCharsEntered = this.scrub(String(inputBox.value))
+    if (zodiacCharsEntered != String(inputBox.value)) {
+      inputBox.value = zodiacCharsEntered
       console.log("invalid or duplicate chars detected")
       return
     }
     for (let i = 0; i < zodiacCharsEntered.length; i++) {
       let zCharToCheck: string = zodiacCharsEntered[i]
-      let englishLetter: string = String(inputBox.attr('data-english-letter'))
+      let englishLetter: string = String(inputBox.dataset.englishLetter)
       if (zCharToCheck in this.zToE && this.zToE[zCharToCheck] != englishLetter) {
-        inputBox.val(this.eToZ[englishLetter].join(''))
+        inputBox.value = this.eToZ[englishLetter].join('')
         console.log("char already in use")
         return
       }
@@ -109,14 +111,16 @@ class SolutionKey {
 
     let nexteToz = this.getDefaultEnglishToZodiacMap()
     let nextzToe: { [key: string]: string } = {}
-    $(".zodiacCharactersForLetter").each(function() {
-      let englishLetter = $(this).attr("data-english-letter")
-      let zchars: Array<string> = String($(this).val()).split('')
+
+    let zodiacInputs: any = document.querySelectorAll('.zodiacCharactersForLetter')
+    zodiacInputs.forEach(function(el: any) {
+      let englishLetter = el.dataset.englishLetter
+      let zchars: Array<string> = el.value.split('')
       nexteToz[`${englishLetter}`] = zchars
       for (let i = 0; i < zchars.length; i++) {
         nextzToe[zchars[i]] = `${englishLetter}`
       }
-    });
+    })
     this.eToZ = nexteToz
     this.zToE = nextzToe
     this.notifySolutionKeyUpdated()
@@ -127,6 +131,11 @@ class SolutionKey {
         this.changeListeners[i]()
       }
     }
+  }
+  htmlToElements(html: string) {
+    var template = document.createElement('template');
+    template.innerHTML = html;
+    return template.content.childNodes;
   }
 }
 

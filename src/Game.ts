@@ -1,7 +1,6 @@
 import { SolutionKey } from "./SolutionKey"
 import { CipherBoard } from "./CipherBoard"
 import { SolutionBoard } from "./SolutionBoard"
-import $ from "jquery";
 
 class Game {
   solutionKey: SolutionKey
@@ -56,27 +55,35 @@ class Game {
   }
   watchMouseHoverEvents() {
     let that: any = this
-    $("table tbody").on("mouseenter", "td", function(e: any) {
-      that.hoveringStarted(e)
-    }).on("mouseleave", "td", function(e: any) {
-      that.hoveringEnded(e)
+    let tds: any = document.querySelectorAll(".board tbody td")
+    tds.forEach(function(tdEl: any) {
+      tdEl.addEventListener('mouseenter', (event: any) => {
+        that.hoveringStarted(event)
+      })
+      tdEl.addEventListener('mouseleave', (event: any) => {
+        that.hoveringEnded(event)
+      })
     });
   }
   hoveringStarted(event: any) {
     let columnNumber: number = event.target.cellIndex
-    let rowNumber: number = $(event.target).closest('tr').index()
+    let rowNumber: number = event.target.parentNode.rowIndex - 1
 
-    $(event.target).addClass('cell-hover')
     let selectedZodiacChar: string = this.cipherBoard.resolveCharOnBoard(columnNumber, rowNumber)
     let zodiacCharLocations: Array<Array<number>> = this.cipherBoard.getAllLocationsOfZodiacChar(selectedZodiacChar)
 
+    let solutionTbodyEl: any = document.getElementById("solution-board-tbody")
+    let cipherBoardTbody: any = document.getElementById("cipher-board-tbody")
     for (let i: number = 0; i < zodiacCharLocations.length; i++) {
-      $("#cipher-board tbody tr").eq(zodiacCharLocations[i][0]).find('td').eq(zodiacCharLocations[i][1]).addClass('cell-hover')
-      $("#solution-board tbody tr").eq(zodiacCharLocations[i][0]).find('td').eq(zodiacCharLocations[i][1]).addClass('cell-hover')
+      cipherBoardTbody.rows[zodiacCharLocations[i][0]].cells[zodiacCharLocations[i][1]].classList.add('cell-hover')
+      solutionTbodyEl.rows[zodiacCharLocations[i][0]].cells[zodiacCharLocations[i][1]].classList.add('cell-hover')
     }
   }
   hoveringEnded(event: any) {
-    $(".cell-hover").removeClass('cell-hover')
+    let el: any = document.getElementsByClassName("cell-hover")
+    while (el.length > 0) {
+      el[0].classList.remove("cell-hover");
+    }
   }
 }
 

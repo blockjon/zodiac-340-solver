@@ -3,7 +3,6 @@ import { CipherBoard } from "./CipherBoard"
 import { SolutionBoard } from "./SolutionBoard"
 import { SolutionKey } from "./SolutionKey"
 import { FloatingKeyboard } from "./FloatingKeyboard"
-import $ from "jquery";
 
 let cipherText = `HER>pl^VPk|1LTG2d
 Np+B(#O%DWY.<*Kf)
@@ -29,11 +28,11 @@ RcT+L16C<+FlWB|)L
 function main() {
 
   let solutionKey = new SolutionKey();
-  solutionKey.setRootElement($("#solution-key-wrapper"))
+  solutionKey.setRootElement(document.getElementById("solution-key-wrapper"))
   solutionKey.registerUserInterface()
 
   let solutionBoard = new SolutionBoard();
-  solutionBoard.setRootElement($("#solution-board"))
+  solutionBoard.setRootElement(document.getElementById("solution-board"))
   solutionBoard.setSolutionKey(solutionKey)
 
   let cipherBoard = new CipherBoard();
@@ -44,7 +43,7 @@ function main() {
   floatingKeyboard.addLetterSelectedHandler((zodiacCharacter: string, englishCharacter: string) => {
     solutionKey.uiKeyboardClicked.call(solutionKey, zodiacCharacter, englishCharacter)
   })
-  cipherBoard.setRootElement($("#cipher-board"))
+  cipherBoard.setRootElement(document.getElementById("cipher-board"))
   cipherBoard.setFloatingKeyboard(floatingKeyboard)
   cipherBoard.addTranspositionListener(() => game.handleTranspositionApplied.call(game))
 
@@ -56,6 +55,4 @@ function main() {
   game.play(cipherText);
 }
 
-$(function() {
-  main();
-});
+main();

@@ -1,4 +1,3 @@
-import $ from "jquery";
 import { SolutionKey } from "./SolutionKey"
 
 class SolutionBoard {
@@ -57,12 +56,13 @@ class SolutionBoard {
     }
   }
   rerender(solutionKey: any, updatedCipherData: any) {
+    let solutionTbodyEl: any = document.getElementById("solution-board-tbody")
     for (let row = 0; row < this.height; row++) {
       for (let column = 0; column < this.width; column++) {
         let englishChar = solutionKey.resolveZodiacChar(updatedCipherData[row][column])
         let currentClearTextChar = this.clearTextData[row][column]
         if (englishChar != currentClearTextChar) {
-          $("#solution-board tbody tr").eq(row).find('td').eq(column).text(englishChar)
+          solutionTbodyEl.rows[row].cells[column].innerText = englishChar
           this.clearTextData[row][column] = englishChar
         }
       }
