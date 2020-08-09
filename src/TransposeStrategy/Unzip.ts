@@ -20,6 +20,12 @@ class Unzip extends AbstractStrategy {
   getShortName() {
     return Unzip.shortName
   }
+  describeOriginalTransposition() {
+    return "converted the characters in each column into rows"
+  }
+  describeAppliedTransposition() {
+    return `${this.getShortName()} - converted rows back to columns`
+  }
 }
 
 export { Unzip };

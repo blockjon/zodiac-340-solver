@@ -24,7 +24,11 @@ abstract class AbstractStrategy {
   }
   notifyTranspositionHappened() {
     for (let i = 0; i < this.onTranspositionHappenedListeners.length; i++) {
-      this.onTranspositionHappenedListeners[i]()
+      this.onTranspositionHappenedListeners[i](
+        this.getShortName(),
+        this.describeAppliedTransposition(),
+        this.describeOriginalTransposition()
+      )
     }
   }
   openTranspositionDialog() {
@@ -59,5 +63,16 @@ abstract class AbstractStrategy {
   perform() {
 
   }
+  describeOriginalTransposition() {
+    return "something happened"
+  }
+  describeAppliedTransposition() {
+    return "something must have happened"
+  }
+  // summarizeTransposition(shortName: string, description: string) {
+  //   let transpositionsDescEl: any = document.getElementById("transpositions-description")
+  //   transpositionsDescEl.innerHTML = "abc"
+  //   console.log(`${shortName} ...  ${description}`)
+  // }
 }
 export { AbstractStrategy };

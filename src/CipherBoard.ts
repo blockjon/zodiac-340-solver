@@ -12,6 +12,7 @@ class CipherBoard {
   floatingKeyboard: FloatingKeyboard
   transpositionStrategySelected: string = ''
   transpositionListeners: Array<any> = [];
+  appliedTranspositions: Array<object> = []
   constructor() {
     this.floatingKeyboard = new FloatingKeyboard()
   }
@@ -21,13 +22,30 @@ class CipherBoard {
     strategies[Reverse.shortName] = new Reverse(this)
     strategies[TabularPassword.shortName] = new TabularPassword(this)
     let dropdown: any = document.getElementById("select-transpose")
+    let transpositionsAppliedEl: any = document.getElementById("list-of-transpositions")
     for (let strategy of Object.values(strategies)) {
       let thisStrategy: any = strategy
       let option = document.createElement("option");
       option.text = thisStrategy.getShortName();
       option.value = thisStrategy.getShortName()
       dropdown.add(option)
-      thisStrategy.addTranspositionHappenedListener(() => {
+      thisStrategy.addTranspositionHappenedListener((shortName: string, shortDescription: string, originalTranspositionDescription: string) => {
+        let li = document.createElement("li");
+        li.appendChild(document.createTextNode(shortDescription));
+        transpositionsAppliedEl.appendChild(li);
+        let descEl: any = document.getElementById("transpositions-description")
+        this.appliedTranspositions.push({
+          'originalTranspositionDescription': originalTranspositionDescription
+        })
+        let whatZodiacDid = "The transpositions above assume the zodiac originally created a homophonic cipher"
+        for (let i = this.appliedTranspositions.length - 1; i > -1; i--) {
+          let thisItem: any = this.appliedTranspositions[i]
+          whatZodiacDid += " and then he " + thisItem.originalTranspositionDescription
+        }
+        whatZodiacDid += "."
+        descEl.textContent = whatZodiacDid
+        let strategyLabelEl: any = document.getElementById("transposition-strategy-label")
+        strategyLabelEl.style.visibility = "visible"
         this.notifyTranspositionHappened()
       })
     }

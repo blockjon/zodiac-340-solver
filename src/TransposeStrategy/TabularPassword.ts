@@ -2,6 +2,7 @@ import { AbstractStrategy } from "./AbstractStrategy"
 
 class TabularPassword extends AbstractStrategy {
   public static shortName: string = 'tabularpassword'
+  lastPasswordUsed: string = ''
   description: string = `This option assumes you are currently looking at a version of the cipher after the
   Zodiac scrambled the column order. There are trillions of combinations of ways to scramble the colummns.
   This option assumes the Zodiac used a password to consistently scramble the cipher text into the current
@@ -16,6 +17,7 @@ class TabularPassword extends AbstractStrategy {
     let newColumnOrder: Array<number> = []
     let passwordEl: any = document.getElementById("tabularpassword")
     let password: string = passwordEl.value
+    this.lastPasswordUsed = password
     for (let i = 0; i < this.cipherBoardCtx.data[0].length; i++) {
       let letter: string = password.split('')[i % password.length]
       referenceArray.push({
@@ -61,11 +63,16 @@ class TabularPassword extends AbstractStrategy {
       tmpVal = tmpVal.replace(/[^a-zA-Z]/gi, '')
       tmpVal = tmpVal.toUpperCase()
       event.target.value = tmpVal
-
     })
   }
   getShortName() {
     return TabularPassword.shortName
+  }
+  describeOriginalTransposition() {
+    return `scrambled the cipher columns using password '${this.lastPasswordUsed}'`
+  }
+  describeAppliedTransposition() {
+    return `${this.getShortName()} - restored orignal column order using password '${this.lastPasswordUsed}'`
   }
 }
 

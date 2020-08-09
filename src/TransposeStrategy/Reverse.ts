@@ -26,6 +26,12 @@ class Reverse extends AbstractStrategy {
   getShortName() {
     return Reverse.shortName
   }
+  describeOriginalTransposition() {
+    return "reversed the cipher text"
+  }
+  describeAppliedTransposition() {
+    return `${this.getShortName()} - cipher text was reversed`
+  }
 }
 
 export { Reverse };
