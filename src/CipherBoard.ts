@@ -37,7 +37,7 @@ class CipherBoard {
         this.appliedTranspositions.push({
           'originalTranspositionDescription': originalTranspositionDescription
         })
-        let whatZodiacDid = "The transpositions above assume the zodiac originally created a homophonic cipher"
+        let whatZodiacDid = "The transpositions above assume the zodiac originally created a homophonic substitution cipher"
         for (let i = this.appliedTranspositions.length - 1; i > -1; i--) {
           let thisItem: any = this.appliedTranspositions[i]
           whatZodiacDid += " and then he " + thisItem.originalTranspositionDescription
