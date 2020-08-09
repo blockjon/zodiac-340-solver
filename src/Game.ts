@@ -53,6 +53,7 @@ class Game {
     this.cipherBoard.listenForClicksOnCells()
     this.solutionBoard.init(this.cipherBoard.getHeight(), this.cipherBoard.getWidth())
     this.watchMouseHoverEvents()
+    this.cipherBoard.listenForTransposeSelectorChange();
   }
   watchMouseHoverEvents() {
     let that: any = this

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/stylesheet.css?v=1" type="text/css" charset="utf-8" />
+    <link rel="stylesheet" href="css/stylesheet.css" type="text/css" charset="utf-8" />
     <title>Zodiac 340 Solver</title>
   </head>
   <body>
@@ -18,9 +18,7 @@
           <div class="col-2">
             <div>
               <select id="select-transpose" class="custom-select">
-                <option value="">- Apply transposition -</option>
-                <option value="reverse">Reverse</option>
-                <option value="unzip">Unzip</option>
+                <option>- Apply transposition -</option>
               </select>
             </div>
             <div class="row" id="solution-key-wrapper">
@@ -96,11 +94,11 @@
         </div>
         <div>
           <p id="transposition-description">description here</p>
-          <button id="cancel-transposition">cancel</button>
-          <button id="apply-transposition">apply</button>
+          <button id="cancel-transposition" data-transpose-selected="">cancel</button>
+          <button id="apply-transposition" data-transpose-selected="">apply</button>
         </div>
       </div>
     </div>
-    <script src="dist/bundle.js?v=5"></script>
+    <script src="dist/bundle.js"></script>
   </body>
 </html>

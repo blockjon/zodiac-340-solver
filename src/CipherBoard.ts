@@ -1,6 +1,7 @@
 import { FloatingKeyboard } from "./FloatingKeyboard";
 import { Unzip } from "./TransposeStrategy/Unzip";
 import { Reverse } from "./TransposeStrategy/Reverse";
+import { TabularPassword } from "./TransposeStrategy/TabularPassword";
 
 class CipherBoard {
   rootElement: any = null;
@@ -9,61 +10,35 @@ class CipherBoard {
   zodiacCharLocations: { [key: string]: Array<Array<number>> } = {};
   cipherStats: any = {};
   floatingKeyboard: FloatingKeyboard
-  transpositionModal: any
   transpositionStrategySelected: string = ''
   transpositionListeners: Array<any> = [];
   constructor() {
     this.floatingKeyboard = new FloatingKeyboard()
-    this.transpositionModal = document.getElementById("transpose-overlay")
   }
   listenForTransposeSelectorChange() {
+    let strategies: any = {}
+    strategies[Unzip.shortName] = new Unzip(this)
+    strategies[Reverse.shortName] = new Reverse(this)
+    strategies[TabularPassword.shortName] = new TabularPassword(this)
+    let dropdown: any = document.getElementById("select-transpose")
+    for (let strategy of Object.values(strategies)) {
+      let thisStrategy: any = strategy
+      let option = document.createElement("option");
+      option.text = thisStrategy.getShortName();
+      option.value = thisStrategy.getShortName()
+      dropdown.add(option)
+      thisStrategy.addTranspositionHappenedListener(() => {
+        this.notifyTranspositionHappened()
+      })
+    }
+
     let that: any = this
     document.addEventListener('change', (event: any) => {
       if (event.target.id == "select-transpose") {
-        let strategy = event.target[event.target.selectedIndex].value
-        if (strategy == 'unzip') {
-          that.openTranspositionConfirmation(
-            strategy,
-            `The ciphertext first is converted into a string left to right top down. Next, the zodiac letters are inserted back onto the board one column at a time starting with column 1 top to bottom and then on to column 2 top to bottom etc.`
-          )
-        }
-        if (strategy == 'reverse') {
-          that.openTranspositionConfirmation(
-            strategy,
-            `The ciphertext will be reversed.`
-          )
-        }
+        let selectedStrategy = event.target[event.target.selectedIndex].value
+        strategies[selectedStrategy].openTranspositionDialog()
       }
     })
-    document.addEventListener('click', (e: any) => {
-      if (["cancel-transposition", "apply-transposition"].includes(e.target.id)) {
-        if (e.target.id == "apply-transposition") {
-          if (this.transpositionStrategySelected == 'unzip') {
-            this.init(new Unzip().perform(this.data))
-          }
-          if (this.transpositionStrategySelected == 'reverse') {
-            this.init(
-              new Reverse().perform(this.data)
-            )
-          }
-          this.notifyTranspositionHappened()
-        }
-        this.closeTranspositionConfirmation()
-        let dropdownEl: any = document.getElementById("select-transpose")
-        dropdownEl.selectedIndex = 0
-      }
-    });
-  }
-  openTranspositionConfirmation(strategy: string, description: string) {
-    let titleEl: any = document.getElementById("transposition-title")
-    titleEl.innerHTML = strategy
-    let descEl: any = document.getElementById("transposition-description")
-    descEl.innerHTML = description
-    this.transpositionModal.style.visibility = "visible"
-    this.transpositionStrategySelected = strategy
-  }
-  closeTranspositionConfirmation() {
-    this.transpositionModal.style.visibility = "hidden"
   }
   setFloatingKeyboard(floatingKeyboard: FloatingKeyboard) {
     this.floatingKeyboard = floatingKeyboard

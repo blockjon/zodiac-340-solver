@@ -36,7 +36,6 @@ function main() {
   solutionBoard.setSolutionKey(solutionKey)
 
   let cipherBoard = new CipherBoard();
-  cipherBoard.listenForTransposeSelectorChange();
 
   let floatingKeyboard = new FloatingKeyboard();
   floatingKeyboard.init()

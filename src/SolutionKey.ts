@@ -104,7 +104,7 @@ class SolutionKey {
       let englishLetter: string = String(inputBox.dataset.englishLetter)
       if (zCharToCheck in this.zToE && this.zToE[zCharToCheck] != englishLetter) {
         inputBox.value = this.eToZ[englishLetter].join('')
-        console.log("char already in use")
+        alert(`The last zodiac character you entered was found to already be mapped to english character ${englishLetter}`)
         return
       }
     }
