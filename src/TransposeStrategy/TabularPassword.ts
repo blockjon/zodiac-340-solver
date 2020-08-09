@@ -4,8 +4,8 @@ class TabularPassword extends AbstractStrategy {
   public static shortName: string = 'tabularpassword'
   lastPasswordUsed: string = ''
   description: string = `This option assumes you are currently looking at a version of the cipher after the
-  Zodiac scrambled the column order. There are trillions of combinations of ways to scramble the colummns.
-  This option assumes the Zodiac used a password to consistently scramble the cipher text into the current
+  Zodiac scrambled the column order. There are trillions of ways to rearrange the columns.
+  This transposition option assumes the Zodiac used a password to consistently scramble the cipher text into the current
   column orientation from a previous orientation. Provide a password you think the Zodiac used to scramble
   the columns and the original column orientation will be recovered. This strategy is discussed
    in <a href="https://www.youtube.com/watch?v=sHsnH1u03e4" target="_blank">this video</a>.<br />
