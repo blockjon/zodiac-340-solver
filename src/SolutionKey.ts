@@ -13,7 +13,7 @@ class SolutionKey {
   }
   getDefaultEnglishToZodiacMap() {
     let result: any = {}
-    for (let i = 65; i <= 90; i++) {
+    for (let i = 33; i <= 90; i++) {
       result[String.fromCharCode(i).toUpperCase()] = []
     }
     return result
@@ -56,7 +56,7 @@ class SolutionKey {
     }
     let columnDiv: any = document.createElement("DIV");
     columnDiv.classList.add("col")
-    for (var i = 65; i <= 90; i++) {
+    for (var i = 33; i <= 90; i++) {
       let letter = String.fromCharCode(i).toUpperCase()
       let html = '' +
         '<div class="input-group key-letter-wrapper">' +

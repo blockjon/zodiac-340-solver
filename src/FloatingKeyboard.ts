@@ -11,7 +11,7 @@ class FloatingKeyboard {
   init() {
     let btnWrapper: any = document.getElementById("keyboard-buttons");
     btnWrapper.innerHTML = '';
-    for (let i = 65; i <= 90; i++) {
+    for (let i = 33; i <= 90; i++) {
       let uppercaseLetter = String.fromCharCode(i).toUpperCase()
       let btn = document.createElement("BUTTON");
       btn.setAttribute('data-letter', uppercaseLetter);
