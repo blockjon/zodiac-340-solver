@@ -57,9 +57,34 @@ class SolutionBoard {
   }
   rerender(solutionKey: any, updatedCipherData: any) {
     let solutionTbodyEl: any = document.getElementById("solution-board-tbody")
+    let caesarShiftCheckboxEl: any = document.getElementById("caesar-shift-mode")
+    let caesarShiftMode: boolean = caesarShiftCheckboxEl.checked
+    let numPlusesEncountered: number = 0
+    let englishChar: string = ''
     for (let row = 0; row < this.height; row++) {
       for (let column = 0; column < this.width; column++) {
-        let englishChar = solutionKey.resolveZodiacChar(updatedCipherData[row][column])
+        let zodiacChar: string = updatedCipherData[row][column]
+        if (zodiacChar == "+") {
+          numPlusesEncountered++
+        }
+        if (zodiacChar == "-") {
+          numPlusesEncountered--
+        }
+        if (caesarShiftMode) {
+          if (zodiacChar == '+' || zodiacChar == '-') {
+            englishChar = ''
+          } else {
+            englishChar = solutionKey.resolveZodiacChar(zodiacChar)
+            if (englishChar != '') {
+              englishChar = this.adjustEnglishCharacterForCeasarStrategy(
+                englishChar,
+                numPlusesEncountered
+              )
+            }
+          }
+        } else {
+          englishChar = solutionKey.resolveZodiacChar(zodiacChar)
+        }
         let currentClearTextChar = this.clearTextData[row][column]
         if (englishChar != currentClearTextChar) {
           solutionTbodyEl.rows[row].cells[column].innerText = englishChar
@@ -67,6 +92,21 @@ class SolutionBoard {
         }
       }
     }
+  }
+  adjustEnglishCharacterForCeasarStrategy(englishCharacter: string, plusCount: number) {
+    // First, resolve the zodiac char to an english char.
+    let englishCharOffset: number = (englishCharacter.toLowerCase().charCodeAt(0) - 97)
+
+    // Next, subtract the number of pluses...
+    let adjustedOffset: number = englishCharOffset - plusCount
+
+    // if the number is negative, add it to 26
+    if (adjustedOffset < 0) {
+      adjustedOffset = 26 + adjustedOffset
+    }
+
+    // Convert the new char index back to a letter
+    return String.fromCharCode(adjustedOffset + 97).toUpperCase()
   }
 }
 

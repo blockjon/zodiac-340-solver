@@ -2,6 +2,9 @@ class FloatingKeyboard {
   el: any
   zodiacCharacterSelected: string = ""
   letterSelectedHandlers: Array<any> = []
+  columnNumUsedToOpenKeyboard: number = -1
+  rowNumUsedToOpenKeyboard: number = -1
+
   constructor() {
     this.el = document.getElementById("keyboard-overlay")
   }
@@ -19,27 +22,45 @@ class FloatingKeyboard {
       btn.innerHTML = uppercaseLetter
       btnWrapper.appendChild(btn)
     }
-    document.addEventListener('click', (e: any) => {
-      if (e.target.classList.contains('english-letter')) {
-        this.runLetterSelectedHandlers(this.zodiacCharacterSelected, e.target.dataset.letter)
+    document.addEventListener('click', (event: any) => {
+      if (event.target.classList.contains('english-letter')) {
+        console.log(event.target.tagName)
+        this.runLetterSelectedHandlers(
+          this.zodiacCharacterSelected,
+          event.target.dataset.letter
+        )
       }
       this.close()
     });
   }
   runLetterSelectedHandlers(zodiacCharacterSelected: string, englishLetter: string) {
     for (let i = 0; i < this.letterSelectedHandlers.length; i++) {
-      this.letterSelectedHandlers[i](zodiacCharacterSelected, englishLetter)
+      this.letterSelectedHandlers[i](
+        zodiacCharacterSelected,
+        englishLetter,
+        this.columnNumUsedToOpenKeyboard,
+        this.rowNumUsedToOpenKeyboard
+      )
     }
   }
-  open(zodiacCharacterSelected: string) {
+  open(zodiacCharacterSelected: string, columnNumUsedToOpenKeyboard: number, rowNumUsedToOpenKeyboard: number) {
+    this.columnNumUsedToOpenKeyboard = columnNumUsedToOpenKeyboard
+    this.rowNumUsedToOpenKeyboard = rowNumUsedToOpenKeyboard
     let zodiacCharClickedOnLabel: any = document.getElementById("zodiacCharClickedOn")
     zodiacCharClickedOnLabel.innerHTML = zodiacCharacterSelected
     this.el.style.visibility = "visible"
     this.zodiacCharacterSelected = zodiacCharacterSelected
+    let caesarShiftCheckboxEl: any = document.getElementById("caesar-shift-mode")
+    let caesarDisclaimerEl: any = document.getElementById("caesar-disclaimer")
+    caesarDisclaimerEl.style.visibility = caesarShiftCheckboxEl.checked ? "visible" : "hidden"
   }
   close() {
     this.el.style.visibility = "hidden"
     this.zodiacCharacterSelected = ""
+    let caesarDisclaimerEl: any = document.getElementById("caesar-disclaimer")
+    caesarDisclaimerEl.style.visibility = "hidden"
+    this.columnNumUsedToOpenKeyboard = -1
+    this.rowNumUsedToOpenKeyboard = -1
   }
 }
 

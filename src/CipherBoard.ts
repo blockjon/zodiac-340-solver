@@ -76,6 +76,23 @@ class CipherBoard {
   getData() {
     return this.data
   }
+  getPlusCountForCell(x: number, y: number) {
+    let plusCount = 0
+    for (let rowNum = 0; rowNum < this.data.length; rowNum++) {
+      let row: Array<string> = this.data[rowNum]
+      for (let colNum = 0; colNum < row.length; colNum++) {
+        if (row[colNum] == "+") {
+          plusCount++
+        } else if (row[colNum] == "-") {
+          plusCount--
+        }
+        if (colNum == x && rowNum == y) {
+          return plusCount
+        }
+      }
+    }
+    throw new Error(`getPlusCountForCell out of bounds this should never happen. x = ${x} y = ${y}`)
+  }
   init(data: Array<Array<string>>) {
     this.columnOrder = []
     this.data = data
@@ -130,7 +147,8 @@ class CipherBoard {
       if (e.target.classList.contains('solver-cell')) {
         let x = e.target.cellIndex
         let y = e.target.parentNode.rowIndex - 1
-        this.floatingKeyboard.open(this.data[y][x])
+        // console.log(`x = ${x} y = ${y}`)
+        this.floatingKeyboard.open(this.data[y][x], x, y)
       }
     });
   }

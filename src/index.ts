@@ -30,17 +30,28 @@ function main() {
   let solutionKey = new SolutionKey();
   solutionKey.setRootElement(document.getElementById("solution-key-wrapper"))
   solutionKey.registerUserInterface()
+  let caesarShiftCheckboxEl: any = document.getElementById("caesar-shift-mode")
+  caesarShiftCheckboxEl.addEventListener('change', (event: any) => {
+    solutionKey.notifySolutionKeyUpdated()
+  })
 
   let solutionBoard = new SolutionBoard();
   solutionBoard.setRootElement(document.getElementById("solution-board"))
   solutionBoard.setSolutionKey(solutionKey)
 
   let cipherBoard = new CipherBoard();
+  solutionKey.setCipherBoard(cipherBoard)
 
   let floatingKeyboard = new FloatingKeyboard();
   floatingKeyboard.init()
-  floatingKeyboard.addLetterSelectedHandler((zodiacCharacter: string, englishCharacter: string) => {
-    solutionKey.uiKeyboardClicked.call(solutionKey, zodiacCharacter, englishCharacter)
+  floatingKeyboard.addLetterSelectedHandler((zodiacCharacter: string, englishCharacter: string, columnNumber: number, rowNumber: number) => {
+    solutionKey.uiKeyboardClicked.call(
+      solutionKey,
+      zodiacCharacter,
+      englishCharacter,
+      columnNumber,
+      rowNumber,
+    )
   })
   cipherBoard.setRootElement(document.getElementById("cipher-board"))
   cipherBoard.setFloatingKeyboard(floatingKeyboard)
