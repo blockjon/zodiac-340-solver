@@ -1,14 +1,37 @@
+import { CipherBoard } from "./CipherBoard"
+
 class SolutionKey {
   eToZ: { [key: string]: Array<string> } = {};
   zToE: { [key: string]: string } = {};
   rootElement: any = null;
   changeListeners: Array<any> = [];
+  cipherBoard: any
   constructor() {
     this.eToZ = this.getDefaultEnglishToZodiacMap()
   }
-  uiKeyboardClicked(zodiacCharacter: string, englishCharacter: string) {
+  setCipherBoard(cipherBoard: CipherBoard) {
+    this.cipherBoard = cipherBoard
+  }
+  uiKeyboardClicked(zodiacCharacter: string, englishCharacter: string, colNum: number, rowNum: number) {
+    // If caesar mode is enabled, apply offset as needed.
+    // console.log(`rowNum = ${rowNum} and colNum = ${colNum}`)
+    let caesarShiftCheckboxEl: any = document.getElementById("caesar-shift-mode")
+    if (caesarShiftCheckboxEl.checked) {
+      let caesarBaseChar = ''
+      // console.log("caesar mode requires consideration of offset")
+      // console.log(`english character = ${englishCharacter}`)
+      let englishCharOffset: number = (englishCharacter.toLowerCase().charCodeAt(0) - 97)
+      // console.log(`english character offset = ${englishCharOffset}`)
+      let numPlusses: number = this.cipherBoard.getPlusCountForCell(colNum, rowNum)
+      // console.log(`numPlusses = ${numPlusses}`)
+      englishCharOffset = (englishCharOffset + numPlusses) % 26
+      caesarBaseChar = String.fromCharCode(englishCharOffset + 97).toUpperCase()
+      // console.log(`caesarBaseChar = ${caesarBaseChar}`)
+      englishCharacter = caesarBaseChar
+    }
+
     let inputBox: any = document.querySelectorAll(`[data-english-letter=${englishCharacter}]`)[0];
-    inputBox.value = inputBox.value + zodiacCharacter // (inputBox.val() + zodiacCharacter)
+    inputBox.value = inputBox.value + zodiacCharacter
     this.examineInputBoxForChanges(inputBox)
   }
   getDefaultEnglishToZodiacMap() {

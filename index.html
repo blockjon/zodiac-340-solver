@@ -29,6 +29,12 @@
             <div class="row" id="solution-key-wrapper">
             </div>
             <div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="1" id="caesar-shift-mode">
+                <label class="form-check-label" for="caesar-shift-mode">
+                  Enable caesar shift on + and - chars
+                </label>
+              </div>
               <p>Click zodiac characters to add them to the homophonic substitution cipher solution key above.</p>
               <p>Created by <a href="https://www.linkedin.com/in/jonathanblockengineer/">Jonathan Block</a></p>
             </div>
@@ -90,6 +96,9 @@
           <p id="modal-title">Choose an english character for zodiac <span class="cipherText" id="zodiacCharClickedOn"></span></p>
         </div>
         <div id="keyboard-buttons"></div>
+        <div>
+          <p id="caesar-disclaimer" style="visibility: hidden;">Since you have caesar shift mode enabled, the english character you choose will be adjusted in the solution key to allow the selected character to appear in the box you clicked on.</p>
+        </div>
       </div>
     </div>
     <div id="transpose-overlay" class="overlay">
